@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoElite Dealership | Vehículos de Lujo y Certificados</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldHover: '#B59223',
+                            orange: '#FF5722',
+                            dark: '#0B0F17',
+                            cardDark: '#161F30',
+                            borderDark: '#232E43'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B0F17;
+            color: #E2E8F0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF 0%, #D4AF37 50%, #FF9900 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-gradient-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #FF8C00 100%);
+            transition: all 0.3s ease;
+        }
+        .gold-gradient-btn:hover {
+            background: linear-gradient(135deg, #E5BE42 0%, #FFA01E 100%);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        .glass-panel {
+            background: rgba(22, 31, 48, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .card-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px -10px rgba(212, 175, 55, 0.25);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232E43;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-gold selection:text-black">
+
+    <!-- 1. NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 glass-panel border-b border-gray-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-12">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-gold to-brand-orange flex items-center justify-center text-black font-extrabold text-xl shadow-lg shadow-brand-gold/20">
+                        <i class="fa-solid fa-car-side"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-wider text-white">AUTO<span class="text-brand-gold">ELITE</span></span>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#hero" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Inicio</a>
+                    <a href="#destacados" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Destacados</a>
+                    <a href="#galeria" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Galería</a>
+                    <a href="#catalogo" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Catálogo</a>
+                    <a href="#contacto" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Contacto</a>
+                </div>
+
+                <!-- Call to Action Button -->
+                <div class="hidden md:flex items-center">
+                    <button onclick="openModal('Prueba de Manejo General')" class="gold-gradient-btn text-slate-950 font-bold px-5 py-2.5 rounded-full shadow-lg flex items-center gap-2 text-sm uppercase tracking-wider">
+                        <i class="fa-regular fa-calendar-check text-base"></i>
+                        <span>Prueba de Manejo</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white p-2 rounded-lg focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-gray-800 px-4 pt-4 pb-6 space-y-3 mt-2">
+            <a href="#hero" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Inicio</a>
+            <a href="#destacados" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Destacados</a>
+            <a href="#galeria" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Galería</a>
+            <a href="#catalogo" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Catálogo</a>
+            <a href="#contacto" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Contacto</a>
+            <button onclick="openModal('Prueba de Manejo General')" class="w-full gold-gradient-btn text-slate-950 font-bold py-3 rounded-xl mt-2 text-sm uppercase tracking-wider">
+                Solicitar Prueba de Manejo
+            </button>
+        </div>
+    </nav>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+        <!-- Background Overlay & Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop" 
+                 alt="Luxury Dark Car" 
+                 class="w-full h-full object-cover object-center scale-105 filter brightness-50 opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/50 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Main Text Content -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-brand-gold/30 text-brand-gold text-xs font-bold uppercase tracking-widest">
+                        <i class="fa-solid fa-crown text-sm"></i> Experiencia Automotriz de Exclusividad
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+                        Maneja el Auto de tus <span class="gold-gradient-text">Sueños Hoy Mismo</span>
+                    </h1>
+                    
+                    <p class="text-lg sm:text-xl text-gray-300 max-w-2xl font-light leading-relaxed">
+                        Accede a nuestro selecto inventario de vehículos de lujo y deportivos. Ofrecemos **financiamiento a tu medida**, tasa preferencial y aprobación en menos de 24 horas con garantía total de fábrica.
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-brand-cardDark border border-brand-borderDark flex items-center justify-center text-brand-gold">
+                                <i class="fa-solid fa-shield-halved text-xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-white font-bold text-sm">Garantía Certificada</p>
+                                <p class="text-xs text-gray-400">Hasta 3 años de cobertura</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-brand-cardDark border border-brand-borderDark flex items-center justify-center text-brand-gold">
+                                <i class="fa-solid fa-bolt text-xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-white font-bold text-sm">Aprobación Express</p>
+                                <p class="text-xs text-gray-400">Respuesta el mismo día</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Search Interactive Box -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-brand-gold/20 shadow-2xl relative">
+                        <div class="absolute -top-3 right-8 bg-gradient-to-r from-brand-gold to-brand-orange text-black font-extrabold text-xs px-4 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                            Buscador Rápido
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-white mb-2">Encuentra tu Vehículo Ideal</h3>
+                        <p class="text-xs text-gray-400 mb-6">Filtra entre más de 120 autos listos para entrega inmediata.</p>
+
+                        <form id="hero-search-form" onsubmit="event.preventDefault(); triggerSearch();" class="space-y-4">
+                            <!-- Marca -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Marca</label>
+                                <div class="relative">
+                                    <select id="search-brand" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold appearance-none">
+                                        <option value="">Todas las marcas</option>
+                                        <option value="Porsche">Porsche</option>
+                                        <option value="BMW">BMW</option>
+                                        <option value="Audi">Audi</option>
+                                        <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                        <option value="Tesla">Tesla</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-gray-400 pointer-events-none text-xs"></i>
+                                </div>
+                            </div>
+
+                            <!-- Categoría / Tipo -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Tipo de Vehículo</label>
+                                <div class="relative">
+                                    <select id="search-type" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold appearance-none">
+                                        <option value="all">Todos los tipos</option>
+                                        <option value="SUV">SUV</option>
+                                        <option value="Deportivo">Deportivo</option>
+                                        <option value="Sedán">Sedán</option>
+                                        <option value="Híbrido/Eléctrico">Eléctrico / Híbrido</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-gray-400 pointer-events-none text-xs"></i>
+                                </div>
+                            </div>
+
+                            <!-- Presupuesto Máximo -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Presupuesto Máx.</label>
+                                    <span id="budget-value" class="text-xs font-bold text-brand-gold">$150,000 USD</span>
+                                </div>
+                                <input type="range" id="search-budget" min="30000" max="200000" step="5000" value="150000" 
+                                       oninput="document.getElementById('budget-value').innerText = '$' + parseInt(this.value).toLocaleString() + ' USD'"
+                                       class="w-full accent-brand-gold bg-slate-800 rounded-lg h-2 cursor-pointer">
+                            </div>
+
+                            <button type="submit" class="w-full gold-gradient-btn text-slate-950 font-bold py-3.5 rounded-xl text-center shadow-lg transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider text-sm mt-4">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Ver Autos Disponibles</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SECCIÓN DE DESTACADOS -->
+    <section id="destacados" class="py-20 bg-brand-dark relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-gold text-xs font-extrabold uppercase tracking-widest bg-brand-gold/10 px-4 py-1.5 rounded-full border border-brand-gold/20">
+                    ¿Por qué elegir AutoElite?
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 mb-4">
+                    Estándares de Excelencia Sin Competencia
+                </h2>
+                <p class="text-gray-400 text-base">
+                    Nos enfocamos en brindar tranquilidad absoluta en cada kilómetro. Descubre las ventajas exclusivas de nuestro concesionario.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Garantía Certificada</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Cada vehículo supera una rigurosa revisión técnica de **150 puntos** en motor, transmisión, electrónica y chasis.
+                    </p>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Financiamiento Flexible</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Planes personalizados con bancos aliados. Pre-aprobación en **menos de 24 horas** con cuotas fijas ajustadas a ti.
+                    </p>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Prueba de 7 Días</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Pruébalo durante 7 días o 500 km. Si el auto no supera tus expectativas, **te devolvemos el 100%** de tu dinero.
+                    </p>
+                </div>
+
+                <!-- Feature Card 4 -->
+                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Trámites Incluidos</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Nos encargamos de toda la gestión legal, traspaso de título, placas y póliza de seguro sin cargos ocultos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CARRUSEL DE IMÁGENES -->
+    <section id="galeria" class="py-20 bg-slate-950 relative overflow-hidden border-y border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-gold text-xs font-extrabold uppercase tracking-widest">
+                        Experiencia Visual
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white mt-2">
+                        Galería de Exclusividad
+                    </h2>
+                </div>
+                <p class="text-gray-400 text-sm max-w-md mt-4 md:mt-0">
+                    Siente la presencia y atención al detalle de los modelos más imponentes de nuestra colección.
+                </p>
+            </div>
+
+            <!-- Carousel Container -->
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl group border border-gray-800">
+                <!-- Carousel Slides -->
+                <div id="carousel-slides" class="flex transition-transform duration-700 ease-in-out">
+                    <!-- Slide 1 -->
+                    <div class="min-w-full relative h-[420px] sm:h-[550px]">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Porsche 911 GT3 RS" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 sm:p-12">
+                            <span class="text-brand-gold text-sm font-bold tracking-widest uppercase">Deportivos de Alto Rendimiento</span>
+                            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Porsche 911 GT3 RS</h3>
+                            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mt-2">Ingeniería pura diseñada para la pista y homologada para la calle.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="min-w-full relative h-[420px] sm:h-[550px]">
+                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Luxury Interior" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 sm:p-12">
+                            <span class="text-brand-gold text-sm font-bold tracking-widest uppercase">Acabados de Lujo Superior</span>
+                            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Interiores en Piel & Fibra de Carbono</h3>
+                            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mt-2">Confort ergonométrico, iluminación ambiental de 64 colores y sistemas de sonido High-End.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="min-w-full relative h-[420px] sm:h-[550px]">
+                        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1600&auto=format&fit=crop" 
+                             alt="SUV de Lujo" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 sm:p-12">
+                            <span class="text-brand-gold text-sm font-bold tracking-widest uppercase">Línea SUV Premium</span>
+                            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Dominio en Cualquier Terreno</h3>
+                            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mt-2">Capacidad para toda la familia sin sacrificar dinamismo y elegancia.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/20 text-white flex items-center justify-center hover:bg-brand-gold hover:text-black transition-all duration-300 focus:outline-none">
+                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/20 text-white flex items-center justify-center hover:bg-brand-gold hover:text-black transition-all duration-300 focus:outline-none">
+                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
+
+                <!-- Dots Indicator -->
+                <div id="dots-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                    <!-- Dots generated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. LISTA DE ELEMENTOS / CATÁLOGO DE VEHÍCULOS -->
+    <section id="catalogo" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brand-gold text-xs font-extrabold uppercase tracking-widest bg-brand-gold/10 px-4 py-1.5 rounded-full border border-brand-gold/20">
+                    Nuestra Colección
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 mb-4">
+                    Explora el Inventario Disponible
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    Filtrado rápido por categoría. Todos los modelos cuentan con historial verificado e inspección garantizada.
+                </p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+                <button onclick="filterCategory('all')" class="filter-btn active bg-brand-gold text-slate-950 font-bold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-md">
+                    Todos
+                </button>
+                <button onclick="filterCategory('SUV')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
+                    SUV
+                </button>
+                <button onclick="filterCategory('Deportivo')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
+                    Deportivo
+                </button>
+                <button onclick="filterCategory('Sedán')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
+                    Sedán
+                </button>
+                <button onclick="filterCategory('Híbrido/Eléctrico')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
+                    Híbrido / Eléctrico
+                </button>
+            </div>
+
+            <!-- Vehicles Grid -->
+            <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Vehicle Cards injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PIE DE PÁGINA (FOOTER) -->
+    <footer id="contacto" class="bg-slate-950 text-gray-400 pt-16 pb-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 cursor-pointer">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-gold to-brand-orange flex items-center justify-center text-black font-extrabold text-lg">
+                            <i class="fa-solid fa-car-side"></i>
+                        </div>
+                        <span class="text-2xl font-black tracking-wider text-white">AUTO<span class="text-brand-gold">ELITE</span></span>
+                    </div>
+                    <p class="text-sm leading-relaxed text-gray-400">
+                        Líderes en venta de vehículos de lujo, semi-nuevos certificados y asesoría financiera automotriz personalizada.
+                    </p>
+                    <div class="flex space-x-3 pt-2">
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white text-base font-bold uppercase tracking-wider mb-4 border-l-2 border-brand-gold pl-3">Enlaces Rápidos</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#hero" class="hover:text-brand-gold transition-colors">Inicio</a></li>
+                        <li><a href="#destacados" class="hover:text-brand-gold transition-colors">¿Por qué AutoElite?</a></li>
+                        <li><a href="#galeria" class="hover:text-brand-gold transition-colors">Galería Interactiva</a></li>
+                        <li><a href="#catalogo" class="hover:text-brand-gold transition-colors">Catálogo Completo</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Calculadora de Cuotas</a></li>
+                    </ul>
+                </div>
+
+                <!-- Working Hours -->
+                <div>
+                    <h4 class="text-white text-base font-bold uppercase tracking-wider mb-4 border-l-2 border-brand-gold pl-3">Horario de Atención</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between border-b border-gray-800/60 pb-2">
+                            <span>Lunes - Viernes:</span>
+                            <span class="text-white font-medium">8:30 AM - 7:00 PM</span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-800/60 pb-2">
+                            <span>Sábados:</span>
+                            <span class="text-white font-medium">9:00 AM - 5:00 PM</span>
+                        </li>
+                        <li class="flex justify-between pb-2">
+                            <span>Domingos:</span>
+                            <span class="text-brand-gold font-medium">Cita Previa</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Details -->
+                <div>
+                    <h4 class="text-white text-base font-bold uppercase tracking-wider mb-4 border-l-2 border-brand-gold pl-3">Contacto Directo</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-brand-gold mt-1"></i>
+                            <span>Av. Principal de las Américas #104, Zona Comercial.</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-brand-gold"></i>
+                            <span class="text-white font-semibold">+1 (800) 555-ELITE</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-brand-gold"></i>
+                            <span>ventas@autoelitedealership.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>&copy; 2026 AutoElite Dealership. Todos los derechos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-gray-400">Términos y Condiciones</a>
+                    <a href="#" class="hover:text-gray-400">Política de Privacidad</a>
+                    <a href="#" class="hover:text-gray-400">Garantías Legal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE MODAL FOR QUOTE / TEST DRIVE -->
+    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-brand-cardDark border border-brand-gold/30 rounded-3xl p-6 sm:p-8 max-w-lg w-full relative shadow-2xl scale-95 transition-transform duration-300" id="modal-container">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="mb-6">
+                <span id="modal-badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full border border-brand-gold/20">
+                    Solicitud
+                </span>
+                <h3 id="modal-title" class="text-2xl font-bold text-white mt-2">Cotizar Vehículo</h3>
+                <p id="modal-subtitle" class="text-gray-400 text-xs mt-1">Completa el formulario para recibir detalles y opción de financiamiento.</p>
+            </div>
+
+            <form id="modal-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="car-selected-input" value="">
+                
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Nombre Completo</label>
+                    <input type="text" required placeholder="Ej. Carlos Mendoza" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Teléfono / WhatsApp</label>
+                        <input type="tel" required placeholder="+1 555-0192" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Correo Electrónico</label>
+                        <input type="email" required placeholder="carlos@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Comentario o Consulta Especial</label>
+                    <textarea rows="3" placeholder="Me interesa conocer las opciones de inicial y tasa de interés..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full gold-gradient-btn text-slate-950 font-bold py-3.5 rounded-xl text-center shadow-lg uppercase tracking-wider text-sm mt-2">
+                    Enviar Solicitud
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & INTERACTIVITY -->
+    <script>
+        // --- 1. VEHICLE DATA DATASET ---
+        const vehicles = [
+            {
+                id: 1,
+                name: "Porsche 911 Carrera GTS",
+                brand: "Porsche",
+                category: "Deportivo",
+                year: 2024,
+                mileage: "0 km (Nuevo)",
+                transmission: "PDK 8 Velocidades",
+                engine: "3.0L Twin-Turbo 480 CV",
+                price: 148500,
+                monthlyFee: 1950,
+                image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=800&auto=format&fit=crop",
+                tag: "Destacado"
+            },
+            {
+                id: 2,
+                name: "BMW X5 M Competition",
+                brand: "BMW",
+                category: "SUV",
+                year: 2023,
+                mileage: "14,200 km",
+                transmission: "Automática M Steptronic",
+                engine: "4.4L V8 TwinPower 625 CV",
+                price: 112000,
+                monthlyFee: 1480,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop",
+                tag: "Certificado"
+            },
+            {
+                id: 3,
+                name: "Tesla Model S Plaid",
+                brand: "Tesla",
+                category: "Híbrido/Eléctrico",
+                year: 2024,
+                mileage: "0 km (Nuevo)",
+                transmission: "Direct Drive Tri-Motor",
+                engine: "1,020 CV 100% Eléctrico",
+                price: 108900,
+                monthlyFee: 1390,
+                image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=800&auto=format&fit=crop",
+                tag: "Eléctrico"
+            },
+            {
+                id: 4,
+                name: "Audi RS6 Avant",
+                brand: "Audi",
+                category: "Sedán",
+                year: 2023,
+                mileage: "8,500 km",
+                transmission: "Tiptronic 8 Vel. Quattro",
+                engine: "4.0L V8 TFSI 600 CV",
+                price: 125000,
+                monthlyFee: 1620,
+                image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=800&auto=format&fit=crop",
+                tag: "Exclusivo"
+            },
+            {
+                id: 5,
+                name: "Mercedes-Benz GLE 53 AMG",
+                brand: "Mercedes-Benz",
+                category: "SUV",
+                year: 2024,
+                mileage: "2,100 km",
+                transmission: "AMG SPEEDSHIFT TCT 9G",
+                engine: "3.0L Turbo Mild-Hybrid 435 CV",
+                price: 98500,
+                monthlyFee: 1290,
+                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop",
+                tag: "Oportunidad"
+            },
+            {
+                id: 6,
+                name: "Mercedes-AMG GT Coupe",
+                brand: "Mercedes-Benz",
+                category: "Deportivo",
+                year: 2022,
+                mileage: "18,900 km",
+                transmission: "AMG SPEEDSHIFT DCT 7G",
+                engine: "4.0L V8 Biturbo 530 CV",
+                price: 132000,
+                monthlyFee: 1710,
+                image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop",
+                tag: "Deportivo"
+            }
+        ];
+
+        // --- 2. RENDER CATALOG CARDS ---
+        function renderCatalog(items) {
+            const container = document.getElementById('catalog-grid');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fa-solid fa-car-side text-4xl text-gray-600 mb-3"></i>
+                        <p class="text-gray-400 text-lg">No se encontraron vehículos que coincidan con la búsqueda.</p>
+                        <button onclick="filterCategory('all')" class="mt-4 text-brand-gold text-sm font-bold underline">Ver todo el inventario</button>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(car => {
+                const card = document.createElement('div');
+                card.className = "bg-brand-cardDark border border-brand-borderDark rounded-3xl overflow-hidden card-hover-effect flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <!-- Image Container -->
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="${car.image}" alt="${car.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                            <span class="absolute top-4 left-4 bg-black/70 backdrop-blur-md text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/30 uppercase tracking-wider">
+                                ${car.tag}
+                            </span>
+                            <span class="absolute top-4 right-4 bg-brand-gold text-slate-950 font-extrabold text-xs px-3 py-1 rounded-full">
+                                ${car.category}
+                            </span>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 line-clamp-1">${car.name}</h3>
+                            
+                            <!-- Specs Badges -->
+                            <div class="grid grid-cols-2 gap-2 my-4 text-xs text-gray-300">
+                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
+                                    <i class="fa-regular fa-calendar text-brand-gold"></i>
+                                    <span>Año: ${car.year}</span>
+                                </div>
+                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
+                                    <i class="fa-solid fa-gauge text-brand-gold"></i>
+                                    <span>${car.mileage}</span>
+                                </div>
+                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
+                                    <i class="fa-solid fa-gears text-brand-gold"></i>
+                                    <span class="truncate">${car.transmission}</span>
+                                </div>
+                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
+                                    <i class="fa-solid fa-microchip text-brand-gold"></i>
+                                    <span class="truncate">${car.engine}</span>
+                                </div>
+                            </div>
+
+                            <!-- Pricing -->
+                            <div class="border-t border-gray-800 pt-4 mt-2 flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs text-gray-400">Precio de contado</p>
+                                    <p class="text-2xl font-black text-white">$${car.price.toLocaleString()} <span class="text-xs text-brand-gold">USD</span></p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-400">Cuota est.</p>
+                                    <p class="text-sm font-bold text-brand-gold">$${car.monthlyFee}/mes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="px-6 pb-6 pt-0">
+                        <button onclick="openModal('${car.name}')" class="w-full bg-slate-900 hover:bg-brand-gold hover:text-slate-950 border border-slate-700 text-white font-bold py-3 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Agendar Cita / Cotizar</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- 3. FILTERING LOGIC ---
+        function filterCategory(category) {
+            // Update active button state
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-gold', 'text-slate-950', 'active');
+                btn.classList.add('bg-brand-cardDark', 'text-gray-300');
+            });
+
+            event.currentTarget.classList.remove('bg-brand-cardDark', 'text-gray-300');
+            event.currentTarget.classList.add('bg-brand-gold', 'text-slate-950', 'active');
+
+            if (category === 'all') {
+                renderCatalog(vehicles);
+            } else {
+                const filtered = vehicles.filter(v => v.category === category);
+                renderCatalog(filtered);
+            }
+        }
+
+        function triggerSearch() {
+            const brand = document.getElementById('search-brand').value;
+            const type = document.getElementById('search-type').value;
+            const maxPrice = parseInt(document.getElementById('search-budget').value);
+
+            let filtered = vehicles.filter(v => v.price <= maxPrice);
+
+            if (brand) {
+                filtered = filtered.filter(v => v.brand.toLowerCase() === brand.toLowerCase());
+            }
+
+            if (type !== 'all') {
+                filtered = filtered.filter(v => v.category === type);
+            }
+
+            // Scroll to catalog section smoothly
+            document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+            renderCatalog(filtered);
+        }
+
+        // --- 4. CAROUSEL SLIDER LOGIC ---
+        let currentSlide = 0;
+        const slidesContainer = document.getElementById('carousel-slides');
+        const totalSlides = 3;
+
+        function initCarousel() {
+            const dotsContainer = document.getElementById('dots-container');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition-all duration-300 ${i === 0 ? 'bg-brand-gold w-8' : 'bg-white/40'}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+
+            document.getElementById('prev-btn').addEventListener('click', prevSlide);
+            document.getElementById('next-btn').addEventListener('click', nextSlide);
+
+            // Auto slide interval
+            setInterval(nextSlide, 6000);
+        }
+
+        function updateCarouselUI() {
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            const dots = document.getElementById('dots-container').children;
+            Array.from(dots).forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.className = 'w-8 h-3 rounded-full bg-brand-gold transition-all duration-300';
+                } else {
+                    dot.className = 'w-3 h-3 rounded-full bg-white/40 transition-all duration-300';
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarouselUI();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarouselUI();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarouselUI();
+        }
+
+        // --- 5. MODAL INTERACTIVITY ---
+        function openModal(carName) {
+            const modal = document.getElementById('booking-modal');
+            const container = document.getElementById('modal-container');
+            const title = document.getElementById('modal-title');
+            const carInput = document.getElementById('car-selected-input');
+
+            carInput.value = carName;
+            title.innerText = `Cotizar: ${carName}`;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            container.classList.remove('scale-95');
+            container.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('booking-modal');
+            const container = document.getElementById('modal-container');
+
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const car = document.getElementById('car-selected-input').value;
+            alert(`¡Gracias por tu interés! Hemos recibido tu solicitud para "${car}". Un asesor VIP te contactará por WhatsApp en breve.`);
+            closeModal();
+            e.target.reset();
+        }
+
+        // --- 6. MOBILE MENU & NAVBAR SCROLL ---
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking links
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Navbar background shift on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-slate-950/95', 'shadow-xl');
+            } else {
+                nav.classList.remove('bg-slate-950/95', 'shadow-xl');
+            }
+        });
+
+        // Initial Load Initialization
+        window.onload = function() {
+            renderCatalog(vehicles);
+            initCarousel();
+        };
+    </script>
+</body>
+</html>
