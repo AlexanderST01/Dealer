@@ -1,58 +1,84 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoElite Dealership | Vehículos de Lujo y Certificados</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            gold: '#D4AF37',
-                            goldHover: '#B59223',
-                            orange: '#FF5722',
-                            dark: '#0B0F17',
-                            cardDark: '#161F30',
-                            borderDark: '#232E43'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
     <style>
+        :root {
+            --brand-gold: #D4AF37;
+            --brand-gold-hover: #B59223;
+            --brand-orange: #FF5722;
+            --brand-dark: #0B0F17;
+            --brand-card-dark: #161F30;
+            --brand-border-dark: #232E43;
+            --slate-950: #020617;
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
-            background-color: #0B0F17;
+            background-color: var(--brand-dark);
             color: #E2E8F0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
+        ::selection {
+            background: var(--brand-gold);
+            color: #000;
+        }
+
+        /* --- Utilidades de marca --- */
+        .text-gold { color: var(--brand-gold) !important; }
+        .text-muted-light { color: #9CA3AF !important; }
+        .text-soft { color: #D1D5DB !important; }
+        .bg-brand-dark { background-color: var(--brand-dark) !important; }
+        .bg-card-dark { background-color: var(--brand-card-dark) !important; }
+        .bg-slate-950 { background-color: var(--slate-950) !important; }
+        .bg-slate-900 { background-color: var(--slate-900) !important; }
+        .border-brand { border: 1px solid var(--brand-border-dark) !important; }
+        .border-gold-soft { border: 1px solid rgba(212, 175, 55, 0.3) !important; }
+        .border-gray-800 { border-color: #1F2937 !important; }
+        .fw-black { font-weight: 800 !important; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .tracking-widest { letter-spacing: 0.1em; }
+        .fs-xs { font-size: 0.75rem; }
+        .rounded-4xl { border-radius: 1.5rem !important; }
+        .rounded-xl { border-radius: 0.75rem !important; }
+
         .gold-gradient-text {
             background: linear-gradient(135deg, #FFF 0%, #D4AF37 50%, #FF9900 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .gold-gradient-btn {
             background: linear-gradient(135deg, #D4AF37 0%, #FF8C00 100%);
+            color: var(--slate-950) !important;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             transition: all 0.3s ease;
         }
-        .gold-gradient-btn:hover {
+        .gold-gradient-btn:hover,
+        .gold-gradient-btn:focus {
             background: linear-gradient(135deg, #E5BE42 0%, #FFA01E 100%);
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
         .glass-panel {
             background: rgba(22, 31, 48, 0.75);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .card-hover-effect {
@@ -61,181 +87,535 @@
         .card-hover-effect:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 30px -10px rgba(212, 175, 55, 0.25);
-            border-color: rgba(212, 175, 55, 0.4);
+            border-color: rgba(212, 175, 55, 0.4) !important;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        /* --- Logo --- */
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.75rem;
+            background: linear-gradient(to top right, var(--brand-gold), var(--brand-orange));
+            color: #000;
+            font-size: 1.25rem;
+            box-shadow: 0 10px 15px -3px rgba(212, 175, 55, 0.2);
         }
-        ::-webkit-scrollbar-track {
-            background: #0B0F17;
+        .logo-icon.sm {
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #232E43;
-            border-radius: 4px;
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: #fff;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #D4AF37;
+
+        /* --- Navbar --- */
+        #navbar {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(31, 41, 55, 0.5);
         }
+        #navbar.scrolled {
+            background: rgba(2, 6, 23, 0.95);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+        #navbar .nav-link {
+            color: #D1D5DB;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        #navbar .nav-link:hover {
+            color: var(--brand-gold);
+        }
+        #navbar .navbar-toggler {
+            border: none;
+            color: #D1D5DB;
+            box-shadow: none;
+        }
+        @media (min-width: 768px) {
+            #navbar .navbar-nav { gap: 1.25rem; }
+            .w-md-auto { width: auto !important; }
+        }
+
+        /* --- Hero --- */
+        #hero {
+            min-height: 100vh;
+            padding-top: 7rem;
+            padding-bottom: 4rem;
+            overflow: hidden;
+        }
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05);
+            filter: brightness(0.5);
+            opacity: 0.4;
+        }
+        .hero-overlay-b {
+            background: linear-gradient(to top, var(--brand-dark), rgba(11, 15, 23, 0.8), transparent);
+        }
+        .hero-overlay-r {
+            background: linear-gradient(to right, var(--brand-dark), rgba(11, 15, 23, 0.5), transparent);
+        }
+        .hero-title {
+            font-size: clamp(2.25rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+        }
+        .hero-pill {
+            border-color: rgba(212, 175, 55, 0.3) !important;
+        }
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--brand-card-dark);
+            border: 1px solid var(--brand-border-dark);
+            color: var(--brand-gold);
+            font-size: 1.25rem;
+        }
+        .search-badge {
+            position: absolute;
+            top: -12px;
+            right: 2rem;
+            background: linear-gradient(to right, var(--brand-gold), var(--brand-orange));
+            color: #000;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 0.25rem 1rem;
+            border-radius: 50rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Formularios oscuros --- */
+        .form-label-dark {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #D1D5DB;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.375rem;
+        }
+        .form-control-dark,
+        .form-select-dark {
+            background-color: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--slate-700);
+            border-radius: 0.75rem;
+            color: #fff;
+            font-size: 0.875rem;
+            padding: 0.75rem 1rem;
+        }
+        .form-select-dark {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%239CA3AF' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        }
+        .form-control-dark::placeholder { color: #6B7280; }
+        .form-control-dark:focus,
+        .form-select-dark:focus {
+            background-color: rgba(15, 23, 42, 0.9);
+            color: #fff;
+            border-color: var(--brand-gold);
+            box-shadow: none;
+        }
+        .form-select-dark option {
+            background: var(--slate-900);
+            color: #fff;
+        }
+        .form-range::-webkit-slider-thumb { background: var(--brand-gold); }
+        .form-range::-moz-range-thumb { background: var(--brand-gold); }
+        .form-range::-webkit-slider-runnable-track { background: var(--slate-800); }
+        .form-range::-moz-range-track { background: var(--slate-800); }
+        .form-range:focus::-webkit-slider-thumb { box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25); }
+
+        /* --- Secciones --- */
+        .section-pill {
+            display: inline-block;
+            color: var(--brand-gold);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 0.375rem 1rem;
+            border-radius: 50rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .section-title {
+            font-size: clamp(1.875rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #fff;
+        }
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 1rem;
+            background: linear-gradient(to bottom right, rgba(212, 175, 55, 0.2), rgba(255, 87, 34, 0.1));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--brand-gold);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        /* --- Carrusel --- */
+        #galeria {
+            border-top: 1px solid #1F2937;
+            border-bottom: 1px solid #1F2937;
+        }
+        .gallery-carousel {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid #1F2937;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .gallery-carousel .carousel-item {
+            height: 420px;
+            transition: transform 0.7s ease-in-out;
+        }
+        @media (min-width: 576px) {
+            .gallery-carousel .carousel-item { height: 550px; }
+        }
+        .gallery-carousel .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+        @media (min-width: 576px) {
+            .slide-overlay { padding: 3rem; }
+        }
+        .slide-title {
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            font-weight: 800;
+            color: #fff;
+        }
+        .carousel-arrow {
+            width: 48px;
+            height: 48px;
+            top: 50%;
+            transform: translateY(-50%);
+            bottom: auto;
+            border-radius: 50%;
+            opacity: 1;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            transition: all 0.3s;
+        }
+        .carousel-control-prev.carousel-arrow { left: 1rem; }
+        .carousel-control-next.carousel-arrow { right: 1rem; }
+        .carousel-arrow:hover {
+            background: var(--brand-gold);
+            color: #000;
+            opacity: 1;
+        }
+        .gallery-carousel .carousel-indicators {
+            margin-bottom: 1rem;
+            gap: 0.5rem;
+        }
+        .gallery-carousel .carousel-indicators [data-bs-target] {
+            width: 12px;
+            height: 12px;
+            border-radius: 50rem;
+            border: none;
+            margin: 0;
+            background-color: rgba(255, 255, 255, 0.4);
+            opacity: 1;
+            transition: all 0.3s;
+        }
+        .gallery-carousel .carousel-indicators .active {
+            width: 32px;
+            background-color: var(--brand-gold);
+        }
+
+        /* --- Catálogo --- */
+        .filter-btn {
+            background: var(--brand-card-dark);
+            color: #D1D5DB;
+            border: 1px solid var(--brand-border-dark);
+            font-weight: 600;
+            padding: 0.625rem 1.5rem;
+            border-radius: 50rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover { color: #fff; }
+        .filter-btn.active {
+            background: var(--brand-gold);
+            color: var(--slate-950);
+            border-color: var(--brand-gold);
+            font-weight: 700;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        .car-card {
+            background: var(--brand-card-dark);
+            border: 1px solid var(--brand-border-dark);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .car-img-wrap {
+            height: 224px;
+            overflow: hidden;
+        }
+        .car-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .car-img-wrap img:hover { transform: scale(1.1); }
+        .car-tag {
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            color: var(--brand-gold);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .car-category {
+            top: 1rem;
+            right: 1rem;
+            background: var(--brand-gold);
+            color: var(--slate-950);
+        }
+        .car-tag,
+        .car-category {
+            position: absolute;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .spec-chip {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            color: #D1D5DB;
+            min-width: 0;
+        }
+        .btn-quote {
+            background: var(--slate-900);
+            border: 1px solid var(--slate-700);
+            color: #fff;
+            font-weight: 700;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+        }
+        .btn-quote:hover {
+            background: var(--brand-gold);
+            color: var(--slate-950);
+            border-color: var(--brand-gold);
+        }
+
+        /* --- Footer --- */
+        footer a {
+            color: #9CA3AF;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        footer a:hover { color: var(--brand-gold); }
+        .footer-heading {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-left: 2px solid var(--brand-gold);
+            padding-left: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--slate-900);
+            border: 1px solid var(--slate-800);
+        }
+        .social-btn:hover { border-color: var(--brand-gold); }
+        .hours-row {
+            border-bottom: 1px solid rgba(31, 41, 55, 0.6);
+        }
+        .footer-bottom a { color: #6B7280; }
+        .footer-bottom a:hover { color: #9CA3AF; }
+
+        /* --- Modal --- */
+        .modal-backdrop.show {
+            opacity: 0.8;
+        }
+        .modal-dark {
+            background: var(--brand-card-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 1.5rem;
+            color: #E2E8F0;
+        }
+        .modal-close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--slate-900);
+            color: #9CA3AF;
+            border: none;
+        }
+        .modal-close-btn:hover { color: #fff; }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--brand-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--brand-border-dark); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand-gold); }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-gold selection:text-black">
+<body>
 
     <!-- 1. NAVBAR -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 glass-panel border-b border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-12">
-                <!-- Logo -->
-                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-gold to-brand-orange flex items-center justify-center text-black font-extrabold text-xl shadow-lg shadow-brand-gold/20">
-                        <i class="fa-solid fa-car-side"></i>
-                    </div>
-                    <span class="text-2xl font-black tracking-wider text-white">AUTO<span class="text-brand-gold">ELITE</span></span>
-                </div>
+    <nav id="navbar" class="navbar navbar-expand-md fixed-top glass-panel py-3">
+        <div class="container-xl px-3 px-sm-4">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-3 m-0" href="#hero">
+                <span class="logo-icon d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-car-side"></i>
+                </span>
+                <span class="logo-text">AUTO<span class="text-gold">ELITE</span></span>
+            </a>
 
-                <!-- Desktop Navigation Links -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#hero" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Inicio</a>
-                    <a href="#destacados" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Destacados</a>
-                    <a href="#galeria" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Galería</a>
-                    <a href="#catalogo" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Catálogo</a>
-                    <a href="#contacto" class="text-gray-300 hover:text-brand-gold font-medium transition-colors duration-200">Contacto</a>
-                </div>
+            <!-- Mobile Menu Button -->
+            <button class="navbar-toggler p-2" type="button" data-bs-toggle="collapse" data-bs-target="#mobile-menu" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menú">
+                <i class="fa-solid fa-bars fs-3"></i>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="mobile-menu">
+                <ul class="navbar-nav mx-auto pt-3 pt-md-0">
+                    <li class="nav-item"><a class="nav-link" href="#hero">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#destacados">Destacados</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
 
                 <!-- Call to Action Button -->
-                <div class="hidden md:flex items-center">
-                    <button onclick="openModal('Prueba de Manejo General')" class="gold-gradient-btn text-slate-950 font-bold px-5 py-2.5 rounded-full shadow-lg flex items-center gap-2 text-sm uppercase tracking-wider">
-                        <i class="fa-regular fa-calendar-check text-base"></i>
-                        <span>Prueba de Manejo</span>
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white p-2 rounded-lg focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
+                <button onclick="openModal('Prueba de Manejo General')" class="btn gold-gradient-btn rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2 small w-100 w-md-auto mt-2 mt-md-0" style="font-size: .875rem;">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>Prueba de Manejo</span>
+                </button>
             </div>
-        </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-gray-800 px-4 pt-4 pb-6 space-y-3 mt-2">
-            <a href="#hero" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Inicio</a>
-            <a href="#destacados" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Destacados</a>
-            <a href="#galeria" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Galería</a>
-            <a href="#catalogo" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Catálogo</a>
-            <a href="#contacto" class="mobile-link block text-gray-300 hover:text-brand-gold font-medium py-2">Contacto</a>
-            <button onclick="openModal('Prueba de Manejo General')" class="w-full gold-gradient-btn text-slate-950 font-bold py-3 rounded-xl mt-2 text-sm uppercase tracking-wider">
-                Solicitar Prueba de Manejo
-            </button>
         </div>
     </nav>
 
     <!-- 2. HERO SECTION -->
-    <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+    <section id="hero" class="position-relative d-flex align-items-center justify-content-center">
         <!-- Background Overlay & Image -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop" 
-                 alt="Luxury Dark Car" 
-                 class="w-full h-full object-cover object-center scale-105 filter brightness-50 opacity-40">
-            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/80 to-transparent"></div>
-            <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/50 to-transparent"></div>
+        <div class="hero-bg position-absolute top-0 start-0 w-100 h-100" style="z-index: 0;">
+            <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop" alt="Luxury Dark Car">
+            <div class="hero-overlay-b position-absolute top-0 start-0 w-100 h-100"></div>
+            <div class="hero-overlay-r position-absolute top-0 start-0 w-100 h-100"></div>
         </div>
 
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="container-xl position-relative px-3 px-sm-4 mt-4" style="z-index: 1;">
+            <div class="row g-5 align-items-center">
                 <!-- Main Text Content -->
-                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-brand-gold/30 text-brand-gold text-xs font-bold uppercase tracking-widest">
-                        <i class="fa-solid fa-crown text-sm"></i> Experiencia Automotriz de Exclusividad
+                <div class="col-lg-7 text-center text-lg-start">
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill glass-panel hero-pill text-gold fs-xs fw-bold text-uppercase tracking-widest mb-4">
+                        <i class="fa-solid fa-crown"></i> Experiencia Automotriz de Exclusividad
                     </div>
-                    
-                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+
+                    <h1 class="hero-title text-white mb-4">
                         Maneja el Auto de tus <span class="gold-gradient-text">Sueños Hoy Mismo</span>
                     </h1>
-                    
-                    <p class="text-lg sm:text-xl text-gray-300 max-w-2xl font-light leading-relaxed">
-                        Accede a nuestro selecto inventario de vehículos de lujo y deportivos. Ofrecemos **financiamiento a tu medida**, tasa preferencial y aprobación en menos de 24 horas con garantía total de fábrica.
+
+                    <p class="fs-5 text-soft fw-light lh-lg mb-4 mx-auto mx-lg-0" style="max-width: 42rem;">
+                        Accede a nuestro selecto inventario de vehículos de lujo y deportivos. Ofrecemos <strong>financiamiento a tu medida</strong>, tasa preferencial y aprobación en menos de 24 horas con garantía total de fábrica.
                     </p>
 
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-brand-cardDark border border-brand-borderDark flex items-center justify-center text-brand-gold">
-                                <i class="fa-solid fa-shield-halved text-xl"></i>
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-4 pt-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-circle d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-shield-halved"></i>
                             </div>
-                            <div class="text-left">
-                                <p class="text-white font-bold text-sm">Garantía Certificada</p>
-                                <p class="text-xs text-gray-400">Hasta 3 años de cobertura</p>
+                            <div class="text-start">
+                                <p class="text-white fw-bold small mb-0">Garantía Certificada</p>
+                                <p class="fs-xs text-muted-light mb-0">Hasta 3 años de cobertura</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-brand-cardDark border border-brand-borderDark flex items-center justify-center text-brand-gold">
-                                <i class="fa-solid fa-bolt text-xl"></i>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-circle d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-bolt"></i>
                             </div>
-                            <div class="text-left">
-                                <p class="text-white font-bold text-sm">Aprobación Express</p>
-                                <p class="text-xs text-gray-400">Respuesta el mismo día</p>
+                            <div class="text-start">
+                                <p class="text-white fw-bold small mb-0">Aprobación Express</p>
+                                <p class="fs-xs text-muted-light mb-0">Respuesta el mismo día</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quick Search Interactive Box -->
-                <div class="lg:col-span-5">
-                    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-brand-gold/20 shadow-2xl relative">
-                        <div class="absolute -top-3 right-8 bg-gradient-to-r from-brand-gold to-brand-orange text-black font-extrabold text-xs px-4 py-1 rounded-full uppercase tracking-wider shadow-lg">
-                            Buscador Rápido
-                        </div>
-                        
-                        <h3 class="text-xl font-bold text-white mb-2">Encuentra tu Vehículo Ideal</h3>
-                        <p class="text-xs text-gray-400 mb-6">Filtra entre más de 120 autos listos para entrega inmediata.</p>
+                <div class="col-lg-5">
+                    <div class="glass-panel p-4 p-sm-5 rounded-4xl position-relative shadow-lg" style="border-color: rgba(212,175,55,.2);">
+                        <div class="search-badge shadow">Buscador Rápido</div>
 
-                        <form id="hero-search-form" onsubmit="event.preventDefault(); triggerSearch();" class="space-y-4">
+                        <h3 class="fs-5 fw-bold text-white mb-2">Encuentra tu Vehículo Ideal</h3>
+                        <p class="fs-xs text-muted-light mb-4">Filtra entre más de 120 autos listos para entrega inmediata.</p>
+
+                        <form id="hero-search-form" onsubmit="event.preventDefault(); triggerSearch();">
                             <!-- Marca -->
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Marca</label>
-                                <div class="relative">
-                                    <select id="search-brand" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold appearance-none">
-                                        <option value="">Todas las marcas</option>
-                                        <option value="Porsche">Porsche</option>
-                                        <option value="BMW">BMW</option>
-                                        <option value="Audi">Audi</option>
-                                        <option value="Mercedes-Benz">Mercedes-Benz</option>
-                                        <option value="Tesla">Tesla</option>
-                                    </select>
-                                    <i class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-gray-400 pointer-events-none text-xs"></i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="search-brand" class="form-label-dark d-block">Marca</label>
+                                <select id="search-brand" class="form-select form-select-dark">
+                                    <option value="">Todas las marcas</option>
+                                    <option value="Porsche">Porsche</option>
+                                    <option value="BMW">BMW</option>
+                                    <option value="Audi">Audi</option>
+                                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                    <option value="Tesla">Tesla</option>
+                                </select>
                             </div>
 
                             <!-- Categoría / Tipo -->
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Tipo de Vehículo</label>
-                                <div class="relative">
-                                    <select id="search-type" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold appearance-none">
-                                        <option value="all">Todos los tipos</option>
-                                        <option value="SUV">SUV</option>
-                                        <option value="Deportivo">Deportivo</option>
-                                        <option value="Sedán">Sedán</option>
-                                        <option value="Híbrido/Eléctrico">Eléctrico / Híbrido</option>
-                                    </select>
-                                    <i class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-gray-400 pointer-events-none text-xs"></i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="search-type" class="form-label-dark d-block">Tipo de Vehículo</label>
+                                <select id="search-type" class="form-select form-select-dark">
+                                    <option value="all">Todos los tipos</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="Deportivo">Deportivo</option>
+                                    <option value="Sedán">Sedán</option>
+                                    <option value="Híbrido/Eléctrico">Eléctrico / Híbrido</option>
+                                </select>
                             </div>
 
                             <!-- Presupuesto Máximo -->
-                            <div>
-                                <div class="flex justify-between items-center mb-1.5">
-                                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">Presupuesto Máx.</label>
-                                    <span id="budget-value" class="text-xs font-bold text-brand-gold">$150,000 USD</span>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="search-budget" class="form-label-dark mb-1">Presupuesto Máx.</label>
+                                    <span id="budget-value" class="fs-xs fw-bold text-gold">$150,000 USD</span>
                                 </div>
-                                <input type="range" id="search-budget" min="30000" max="200000" step="5000" value="150000" 
-                                       oninput="document.getElementById('budget-value').innerText = '$' + parseInt(this.value).toLocaleString() + ' USD'"
-                                       class="w-full accent-brand-gold bg-slate-800 rounded-lg h-2 cursor-pointer">
+                                <input type="range" id="search-budget" class="form-range" min="30000" max="200000" step="5000" value="150000"
+                                       oninput="document.getElementById('budget-value').innerText = '$' + parseInt(this.value).toLocaleString() + ' USD'">
                             </div>
 
-                            <button type="submit" class="w-full gold-gradient-btn text-slate-950 font-bold py-3.5 rounded-xl text-center shadow-lg transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider text-sm mt-4">
+                            <button type="submit" class="btn gold-gradient-btn w-100 py-3 rounded-xl d-flex align-items-center justify-content-center gap-2 mt-4 shadow" style="font-size: .875rem;">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 <span>Ver Autos Disponibles</span>
                             </button>
@@ -247,319 +627,301 @@
     </section>
 
     <!-- 3. SECCIÓN DE DESTACADOS -->
-    <section id="destacados" class="py-20 bg-brand-dark relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-brand-gold text-xs font-extrabold uppercase tracking-widest bg-brand-gold/10 px-4 py-1.5 rounded-full border border-brand-gold/20">
-                    ¿Por qué elegir AutoElite?
-                </span>
-                <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 mb-4">
-                    Estándares de Excelencia Sin Competencia
-                </h2>
-                <p class="text-gray-400 text-base">
+    <section id="destacados" class="py-5 bg-brand-dark position-relative">
+        <div class="container-xl px-3 px-sm-4 py-4">
+            <div class="text-center mx-auto mb-5" style="max-width: 48rem;">
+                <span class="section-pill">¿Por qué elegir AutoElite?</span>
+                <h2 class="section-title mt-3 mb-3">Estándares de Excelencia Sin Competencia</h2>
+                <p class="text-muted-light">
                     Nos enfocamos en brindar tranquilidad absoluta en cada kilómetro. Descubre las ventajas exclusivas de nuestro concesionario.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="row g-4">
                 <!-- Feature Card 1 -->
-                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-clipboard-check"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card bg-card-dark border-brand p-4 p-xl-5 rounded-4xl card-hover-effect h-100">
+                        <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <h3 class="fs-5 fw-bold text-white mb-3">Garantía Certificada</h3>
+                        <p class="text-muted-light small lh-lg mb-0">
+                            Cada vehículo supera una rigurosa revisión técnica de <strong>150 puntos</strong> en motor, transmisión, electrónica y chasis.
+                        </p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Garantía Certificada</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Cada vehículo supera una rigurosa revisión técnica de **150 puntos** en motor, transmisión, electrónica y chasis.
-                    </p>
                 </div>
 
                 <!-- Feature Card 2 -->
-                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card bg-card-dark border-brand p-4 p-xl-5 rounded-4xl card-hover-effect h-100">
+                        <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <h3 class="fs-5 fw-bold text-white mb-3">Financiamiento Flexible</h3>
+                        <p class="text-muted-light small lh-lg mb-0">
+                            Planes personalizados con bancos aliados. Pre-aprobación en <strong>menos de 24 horas</strong> con cuotas fijas ajustadas a ti.
+                        </p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Financiamiento Flexible</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Planes personalizados con bancos aliados. Pre-aprobación en **menos de 24 horas** con cuotas fijas ajustadas a ti.
-                    </p>
                 </div>
 
                 <!-- Feature Card 3 -->
-                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-rotate-left"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card bg-card-dark border-brand p-4 p-xl-5 rounded-4xl card-hover-effect h-100">
+                        <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </div>
+                        <h3 class="fs-5 fw-bold text-white mb-3">Prueba de 7 Días</h3>
+                        <p class="text-muted-light small lh-lg mb-0">
+                            Pruébalo durante 7 días o 500 km. Si el auto no supera tus expectativas, <strong>te devolvemos el 100%</strong> de tu dinero.
+                        </p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Prueba de 7 Días</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Pruébalo durante 7 días o 500 km. Si el auto no supera tus expectativas, **te devolvemos el 100%** de tu dinero.
-                    </p>
                 </div>
 
                 <!-- Feature Card 4 -->
-                <div class="bg-brand-cardDark border border-brand-borderDark p-8 rounded-3xl card-hover-effect relative group">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-brand-orange/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-file-contract"></i>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card bg-card-dark border-brand p-4 p-xl-5 rounded-4xl card-hover-effect h-100">
+                        <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+                            <i class="fa-solid fa-file-contract"></i>
+                        </div>
+                        <h3 class="fs-5 fw-bold text-white mb-3">Trámites Incluidos</h3>
+                        <p class="text-muted-light small lh-lg mb-0">
+                            Nos encargamos de toda la gestión legal, traspaso de título, placas y póliza de seguro sin cargos ocultos.
+                        </p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Trámites Incluidos</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Nos encargamos de toda la gestión legal, traspaso de título, placas y póliza de seguro sin cargos ocultos.
-                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 4. CARRUSEL DE IMÁGENES -->
-    <section id="galeria" class="py-20 bg-slate-950 relative overflow-hidden border-y border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+    <section id="galeria" class="py-5 bg-slate-950 position-relative overflow-hidden">
+        <div class="container-xl px-3 px-sm-4 py-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between mb-5">
                 <div>
-                    <span class="text-brand-gold text-xs font-extrabold uppercase tracking-widest">
-                        Experiencia Visual
-                    </span>
-                    <h2 class="text-3xl sm:text-5xl font-black text-white mt-2">
-                        Galería de Exclusividad
-                    </h2>
+                    <span class="text-gold fs-xs fw-black text-uppercase tracking-widest">Experiencia Visual</span>
+                    <h2 class="section-title mt-2 mb-0">Galería de Exclusividad</h2>
                 </div>
-                <p class="text-gray-400 text-sm max-w-md mt-4 md:mt-0">
+                <p class="text-muted-light small mt-3 mt-md-0 mb-0" style="max-width: 28rem;">
                     Siente la presencia y atención al detalle de los modelos más imponentes de nuestra colección.
                 </p>
             </div>
 
             <!-- Carousel Container -->
-            <div class="relative rounded-3xl overflow-hidden shadow-2xl group border border-gray-800">
+            <div id="galleryCarousel" class="carousel slide gallery-carousel" data-bs-ride="carousel" data-bs-interval="6000">
+                <!-- Dots Indicator -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+
                 <!-- Carousel Slides -->
-                <div id="carousel-slides" class="flex transition-transform duration-700 ease-in-out">
+                <div class="carousel-inner">
                     <!-- Slide 1 -->
-                    <div class="min-w-full relative h-[420px] sm:h-[550px]">
-                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" 
-                             alt="Porsche 911 GT3 RS" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 sm:p-12">
-                            <span class="text-brand-gold text-sm font-bold tracking-widest uppercase">Deportivos de Alto Rendimiento</span>
-                            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Porsche 911 GT3 RS</h3>
-                            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mt-2">Ingeniería pura diseñada para la pista y homologada para la calle.</p>
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" alt="Porsche 911 GT3 RS">
+                        <div class="slide-overlay">
+                            <span class="text-gold small fw-bold tracking-widest text-uppercase">Deportivos de Alto Rendimiento</span>
+                            <h3 class="slide-title mt-1 mb-0">Porsche 911 GT3 RS</h3>
+                            <p class="text-soft mt-2 mb-0" style="max-width: 42rem;">Ingeniería pura diseñada para la pista y homologada para la calle.</p>
                         </div>
                     </div>
 
                     <!-- Slide 2 -->
-                    <div class="min-w-full relative h-[420px] sm:h-[550px]">
-                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1600&auto=format&fit=crop" 
-                             alt="Luxury Interior" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 sm:p-12">
-                            <span class="text-brand-gold text-sm font-bold tracking-widest uppercase">Acabados de Lujo Superior</span>
-                            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Interiores en Piel & Fibra de Carbono</h3>
-                            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mt-2">Confort ergonométrico, iluminación ambiental de 64 colores y sistemas de sonido High-End.</p>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1600&auto=format&fit=crop" alt="Luxury Interior">
+                        <div class="slide-overlay">
+                            <span class="text-gold small fw-bold tracking-widest text-uppercase">Acabados de Lujo Superior</span>
+                            <h3 class="slide-title mt-1 mb-0">Interiores en Piel &amp; Fibra de Carbono</h3>
+                            <p class="text-soft mt-2 mb-0" style="max-width: 42rem;">Confort ergonométrico, iluminación ambiental de 64 colores y sistemas de sonido High-End.</p>
                         </div>
                     </div>
 
                     <!-- Slide 3 -->
-                    <div class="min-w-full relative h-[420px] sm:h-[550px]">
-                        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1600&auto=format&fit=crop" 
-                             alt="SUV de Lujo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 sm:p-12">
-                            <span class="text-brand-gold text-sm font-bold tracking-widest uppercase">Línea SUV Premium</span>
-                            <h3 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">Dominio en Cualquier Terreno</h3>
-                            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mt-2">Capacidad para toda la familia sin sacrificar dinamismo y elegancia.</p>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1600&auto=format&fit=crop" alt="SUV de Lujo">
+                        <div class="slide-overlay">
+                            <span class="text-gold small fw-bold tracking-widest text-uppercase">Línea SUV Premium</span>
+                            <h3 class="slide-title mt-1 mb-0">Dominio en Cualquier Terreno</h3>
+                            <p class="text-soft mt-2 mb-0" style="max-width: 42rem;">Capacidad para toda la familia sin sacrificar dinamismo y elegancia.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Navigation Arrows -->
-                <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/20 text-white flex items-center justify-center hover:bg-brand-gold hover:text-black transition-all duration-300 focus:outline-none">
-                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                <button class="carousel-control-prev carousel-arrow glass-panel" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                    <i class="fa-solid fa-chevron-left fs-5"></i>
+                    <span class="visually-hidden">Anterior</span>
                 </button>
-                <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/20 text-white flex items-center justify-center hover:bg-brand-gold hover:text-black transition-all duration-300 focus:outline-none">
-                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                <button class="carousel-control-next carousel-arrow glass-panel" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                    <i class="fa-solid fa-chevron-right fs-5"></i>
+                    <span class="visually-hidden">Siguiente</span>
                 </button>
-
-                <!-- Dots Indicator -->
-                <div id="dots-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                    <!-- Dots generated by JS -->
-                </div>
             </div>
         </div>
     </section>
 
     <!-- 5. LISTA DE ELEMENTOS / CATÁLOGO DE VEHÍCULOS -->
-    <section id="catalogo" class="py-24 bg-brand-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-brand-gold text-xs font-extrabold uppercase tracking-widest bg-brand-gold/10 px-4 py-1.5 rounded-full border border-brand-gold/20">
-                    Nuestra Colección
-                </span>
-                <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 mb-4">
-                    Explora el Inventario Disponible
-                </h2>
-                <p class="text-gray-400 text-sm sm:text-base">
+    <section id="catalogo" class="py-5 bg-brand-dark">
+        <div class="container-xl px-3 px-sm-4 py-5">
+            <div class="text-center mx-auto mb-5" style="max-width: 48rem;">
+                <span class="section-pill">Nuestra Colección</span>
+                <h2 class="section-title mt-3 mb-3">Explora el Inventario Disponible</h2>
+                <p class="text-muted-light">
                     Filtrado rápido por categoría. Todos los modelos cuentan con historial verificado e inspección garantizada.
                 </p>
             </div>
 
             <!-- Filter Buttons -->
-            <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
-                <button onclick="filterCategory('all')" class="filter-btn active bg-brand-gold text-slate-950 font-bold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-md">
-                    Todos
-                </button>
-                <button onclick="filterCategory('SUV')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
-                    SUV
-                </button>
-                <button onclick="filterCategory('Deportivo')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
-                    Deportivo
-                </button>
-                <button onclick="filterCategory('Sedán')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
-                    Sedán
-                </button>
-                <button onclick="filterCategory('Híbrido/Eléctrico')" class="filter-btn bg-brand-cardDark text-gray-300 hover:text-white border border-brand-borderDark font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm uppercase tracking-wider transition-all duration-300">
-                    Híbrido / Eléctrico
-                </button>
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 gap-sm-3 mb-5">
+                <button class="btn filter-btn active" data-category="all">Todos</button>
+                <button class="btn filter-btn" data-category="SUV">SUV</button>
+                <button class="btn filter-btn" data-category="Deportivo">Deportivo</button>
+                <button class="btn filter-btn" data-category="Sedán">Sedán</button>
+                <button class="btn filter-btn" data-category="Híbrido/Eléctrico">Híbrido / Eléctrico</button>
             </div>
 
             <!-- Vehicles Grid -->
-            <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="catalog-grid" class="row g-4">
                 <!-- Vehicle Cards injected via JS -->
             </div>
         </div>
     </section>
 
     <!-- 6. PIE DE PÁGINA (FOOTER) -->
-    <footer id="contacto" class="bg-slate-950 text-gray-400 pt-16 pb-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+    <footer id="contacto" class="bg-slate-950 text-muted-light pt-5 pb-5 border-top border-gray-800">
+        <div class="container-xl px-3 px-sm-4 pt-3">
+            <div class="row g-5 mb-5">
                 <!-- Company Info -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3 cursor-pointer">
-                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-gold to-brand-orange flex items-center justify-center text-black font-extrabold text-lg">
+                <div class="col-md-6 col-lg-3">
+                    <a href="#hero" class="d-flex align-items-center gap-3 mb-3">
+                        <span class="logo-icon sm d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-car-side"></i>
-                        </div>
-                        <span class="text-2xl font-black tracking-wider text-white">AUTO<span class="text-brand-gold">ELITE</span></span>
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-400">
+                        </span>
+                        <span class="logo-text">AUTO<span class="text-gold">ELITE</span></span>
+                    </a>
+                    <p class="small lh-lg">
                         Líderes en venta de vehículos de lujo, semi-nuevos certificados y asesoría financiera automotriz personalizada.
                     </p>
-                    <div class="flex space-x-3 pt-2">
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
+                    <div class="d-flex gap-2 pt-2">
+                        <a href="#" class="social-btn d-flex align-items-center justify-content-center" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn d-flex align-items-center justify-content-center" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn d-flex align-items-center justify-content-center" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="social-btn d-flex align-items-center justify-content-center" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                     </div>
                 </div>
 
                 <!-- Quick Links -->
-                <div>
-                    <h4 class="text-white text-base font-bold uppercase tracking-wider mb-4 border-l-2 border-brand-gold pl-3">Enlaces Rápidos</h4>
-                    <ul class="space-y-2.5 text-sm">
-                        <li><a href="#hero" class="hover:text-brand-gold transition-colors">Inicio</a></li>
-                        <li><a href="#destacados" class="hover:text-brand-gold transition-colors">¿Por qué AutoElite?</a></li>
-                        <li><a href="#galeria" class="hover:text-brand-gold transition-colors">Galería Interactiva</a></li>
-                        <li><a href="#catalogo" class="hover:text-brand-gold transition-colors">Catálogo Completo</a></li>
-                        <li><a href="#" class="hover:text-brand-gold transition-colors">Calculadora de Cuotas</a></li>
+                <div class="col-md-6 col-lg-3">
+                    <h4 class="footer-heading">Enlaces Rápidos</h4>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><a href="#hero">Inicio</a></li>
+                        <li><a href="#destacados">¿Por qué AutoElite?</a></li>
+                        <li><a href="#galeria">Galería Interactiva</a></li>
+                        <li><a href="#catalogo">Catálogo Completo</a></li>
+                        <li><a href="#">Calculadora de Cuotas</a></li>
                     </ul>
                 </div>
 
                 <!-- Working Hours -->
-                <div>
-                    <h4 class="text-white text-base font-bold uppercase tracking-wider mb-4 border-l-2 border-brand-gold pl-3">Horario de Atención</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li class="flex justify-between border-b border-gray-800/60 pb-2">
+                <div class="col-md-6 col-lg-3">
+                    <h4 class="footer-heading">Horario de Atención</h4>
+                    <ul class="list-unstyled small mb-0">
+                        <li class="d-flex justify-content-between hours-row pb-2 mb-2">
                             <span>Lunes - Viernes:</span>
-                            <span class="text-white font-medium">8:30 AM - 7:00 PM</span>
+                            <span class="text-white fw-medium">8:30 AM - 7:00 PM</span>
                         </li>
-                        <li class="flex justify-between border-b border-gray-800/60 pb-2">
+                        <li class="d-flex justify-content-between hours-row pb-2 mb-2">
                             <span>Sábados:</span>
-                            <span class="text-white font-medium">9:00 AM - 5:00 PM</span>
+                            <span class="text-white fw-medium">9:00 AM - 5:00 PM</span>
                         </li>
-                        <li class="flex justify-between pb-2">
+                        <li class="d-flex justify-content-between pb-2">
                             <span>Domingos:</span>
-                            <span class="text-brand-gold font-medium">Cita Previa</span>
+                            <span class="text-gold fw-medium">Cita Previa</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Contact Details -->
-                <div>
-                    <h4 class="text-white text-base font-bold uppercase tracking-wider mb-4 border-l-2 border-brand-gold pl-3">Contacto Directo</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-location-dot text-brand-gold mt-1"></i>
+                <div class="col-md-6 col-lg-3">
+                    <h4 class="footer-heading">Contacto Directo</h4>
+                    <ul class="list-unstyled small d-flex flex-column gap-3 mb-0">
+                        <li class="d-flex align-items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-gold mt-1"></i>
                             <span>Av. Principal de las Américas #104, Zona Comercial.</span>
                         </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-phone text-brand-gold"></i>
-                            <span class="text-white font-semibold">+1 (800) 555-ELITE</span>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-phone text-gold"></i>
+                            <span class="text-white fw-semibold">+1 (800) 555-ELITE</span>
                         </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-envelope text-brand-gold"></i>
-                            <span>ventas@autoelitedealership.com</span>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-envelope text-gold"></i>
+                            <span class="text-break">ventas@autoelitedealership.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
-                <p>&copy; 2026 AutoElite Dealership. Todos los derechos reservados.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="hover:text-gray-400">Términos y Condiciones</a>
-                    <a href="#" class="hover:text-gray-400">Política de Privacidad</a>
-                    <a href="#" class="hover:text-gray-400">Garantías Legal</a>
+            <div class="footer-bottom border-top border-gray-800 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 fs-xs" style="color: #6B7280;">
+                <p class="mb-0">&copy; 2026 AutoElite Dealership. Todos los derechos reservados.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-4">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Garantías Legal</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- INTERACTIVE MODAL FOR QUOTE / TEST DRIVE -->
-    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-brand-cardDark border border-brand-gold/30 rounded-3xl p-6 sm:p-8 max-w-lg w-full relative shadow-2xl scale-95 transition-transform duration-300" id="modal-container">
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <div class="mb-6">
-                <span id="modal-badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full border border-brand-gold/20">
-                    Solicitud
-                </span>
-                <h3 id="modal-title" class="text-2xl font-bold text-white mt-2">Cotizar Vehículo</h3>
-                <p id="modal-subtitle" class="text-gray-400 text-xs mt-1">Completa el formulario para recibir detalles y opción de financiamiento.</p>
-            </div>
-
-            <form id="modal-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
-                <input type="hidden" id="car-selected-input" value="">
-                
-                <div>
-                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Nombre Completo</label>
-                    <input type="text" required placeholder="Ej. Carlos Mendoza" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Teléfono / WhatsApp</label>
-                        <input type="tel" required placeholder="+1 555-0192" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Correo Electrónico</label>
-                        <input type="email" required placeholder="carlos@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">Comentario o Consulta Especial</label>
-                    <textarea rows="3" placeholder="Me interesa conocer las opciones de inicial y tasa de interés..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-gold resize-none"></textarea>
-                </div>
-
-                <button type="submit" class="w-full gold-gradient-btn text-slate-950 font-bold py-3.5 rounded-xl text-center shadow-lg uppercase tracking-wider text-sm mt-2">
-                    Enviar Solicitud
+    <div class="modal fade" id="booking-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-dark p-4 p-sm-5 shadow-lg position-relative">
+                <!-- Close Button -->
+                <button type="button" class="modal-close-btn position-absolute top-0 end-0 m-4 d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark fs-5"></i>
                 </button>
-            </form>
+
+                <div class="mb-4">
+                    <span id="modal-badge" class="section-pill" style="font-weight: 700; padding: .25rem .75rem;">Solicitud</span>
+                    <h3 id="modal-title" class="fs-4 fw-bold text-white mt-2 mb-1 pe-4">Cotizar Vehículo</h3>
+                    <p id="modal-subtitle" class="text-muted-light fs-xs mb-0">Completa el formulario para recibir detalles y opción de financiamiento.</p>
+                </div>
+
+                <form id="modal-form" onsubmit="handleFormSubmit(event)">
+                    <input type="hidden" id="car-selected-input" value="">
+
+                    <div class="mb-3">
+                        <label class="form-label-dark d-block mb-1">Nombre Completo</label>
+                        <input type="text" required placeholder="Ej. Carlos Mendoza" class="form-control form-control-dark">
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <label class="form-label-dark d-block mb-1">Teléfono / WhatsApp</label>
+                            <input type="tel" required placeholder="+1 555-0192" class="form-control form-control-dark">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label-dark d-block mb-1">Correo Electrónico</label>
+                            <input type="email" required placeholder="carlos@email.com" class="form-control form-control-dark">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-dark d-block mb-1">Comentario o Consulta Especial</label>
+                        <textarea rows="3" placeholder="Me interesa conocer las opciones de inicial y tasa de interés..." class="form-control form-control-dark" style="resize: none;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn gold-gradient-btn w-100 py-3 rounded-xl mt-2 shadow" style="font-size: .875rem;">
+                        Enviar Solicitud
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- JAVASCRIPT LOGIC & INTERACTIVITY -->
     <script>
@@ -658,100 +1020,107 @@
 
             if (items.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <i class="fa-solid fa-car-side text-4xl text-gray-600 mb-3"></i>
-                        <p class="text-gray-400 text-lg">No se encontraron vehículos que coincidan con la búsqueda.</p>
-                        <button onclick="filterCategory('all')" class="mt-4 text-brand-gold text-sm font-bold underline">Ver todo el inventario</button>
+                    <div class="col-12 text-center py-5">
+                        <i class="fa-solid fa-car-side fs-1 mb-3" style="color: #4B5563;"></i>
+                        <p class="text-muted-light fs-5">No se encontraron vehículos que coincidan con la búsqueda.</p>
+                        <button onclick="filterCategory('all')" class="btn btn-link text-gold small fw-bold mt-2 p-0">Ver todo el inventario</button>
                     </div>
                 `;
                 return;
             }
 
             items.forEach(car => {
-                const card = document.createElement('div');
-                card.className = "bg-brand-cardDark border border-brand-borderDark rounded-3xl overflow-hidden card-hover-effect flex flex-col justify-between";
-                card.innerHTML = `
-                    <div>
-                        <!-- Image Container -->
-                        <div class="relative h-56 overflow-hidden">
-                            <img src="${car.image}" alt="${car.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                            <span class="absolute top-4 left-4 bg-black/70 backdrop-blur-md text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/30 uppercase tracking-wider">
-                                ${car.tag}
-                            </span>
-                            <span class="absolute top-4 right-4 bg-brand-gold text-slate-950 font-extrabold text-xs px-3 py-1 rounded-full">
-                                ${car.category}
-                            </span>
-                        </div>
-
-                        <!-- Card Content -->
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2 line-clamp-1">${car.name}</h3>
-                            
-                            <!-- Specs Badges -->
-                            <div class="grid grid-cols-2 gap-2 my-4 text-xs text-gray-300">
-                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
-                                    <i class="fa-regular fa-calendar text-brand-gold"></i>
-                                    <span>Año: ${car.year}</span>
-                                </div>
-                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
-                                    <i class="fa-solid fa-gauge text-brand-gold"></i>
-                                    <span>${car.mileage}</span>
-                                </div>
-                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
-                                    <i class="fa-solid fa-gears text-brand-gold"></i>
-                                    <span class="truncate">${car.transmission}</span>
-                                </div>
-                                <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl">
-                                    <i class="fa-solid fa-microchip text-brand-gold"></i>
-                                    <span class="truncate">${car.engine}</span>
-                                </div>
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4';
+                col.innerHTML = `
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <!-- Image Container -->
+                            <div class="car-img-wrap position-relative">
+                                <img src="${car.image}" alt="${car.name}">
+                                <span class="car-tag">${car.tag}</span>
+                                <span class="car-category">${car.category}</span>
                             </div>
 
-                            <!-- Pricing -->
-                            <div class="border-t border-gray-800 pt-4 mt-2 flex justify-between items-end">
-                                <div>
-                                    <p class="text-xs text-gray-400">Precio de contado</p>
-                                    <p class="text-2xl font-black text-white">$${car.price.toLocaleString()} <span class="text-xs text-brand-gold">USD</span></p>
+                            <!-- Card Content -->
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">${car.name}</h3>
+
+                                <!-- Specs Badges -->
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: ${car.year}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">${car.mileage}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">${car.transmission}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">${car.engine}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-right">
-                                    <p class="text-xs text-gray-400">Cuota est.</p>
-                                    <p class="text-sm font-bold text-brand-gold">$${car.monthlyFee}/mes</p>
+
+                                <!-- Pricing -->
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$${car.price.toLocaleString()} <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$${car.monthlyFee}/mes</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Action Button -->
-                    <div class="px-6 pb-6 pt-0">
-                        <button onclick="openModal('${car.name}')" class="w-full bg-slate-900 hover:bg-brand-gold hover:text-slate-950 border border-slate-700 text-white font-bold py-3 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            <span>Agendar Cita / Cotizar</span>
-                        </button>
+                        <!-- Action Button -->
+                        <div class="px-4 pb-4">
+                            <button onclick="openModal('${car.name}')" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
                     </div>
                 `;
-                container.appendChild(card);
+                container.appendChild(col);
             });
         }
 
         // --- 3. FILTERING LOGIC ---
-        function filterCategory(category) {
-            // Update active button state
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-brand-gold', 'text-slate-950', 'active');
-                btn.classList.add('bg-brand-cardDark', 'text-gray-300');
+        function setActiveFilter(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
             });
+        }
 
-            event.currentTarget.classList.remove('bg-brand-cardDark', 'text-gray-300');
-            event.currentTarget.classList.add('bg-brand-gold', 'text-slate-950', 'active');
+        function filterCategory(category) {
+            setActiveFilter(category);
 
             if (category === 'all') {
                 renderCatalog(vehicles);
             } else {
-                const filtered = vehicles.filter(v => v.category === category);
-                renderCatalog(filtered);
+                renderCatalog(vehicles.filter(v => v.category === category));
             }
         }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => filterCategory(btn.dataset.category));
+        });
 
         function triggerSearch() {
             const brand = document.getElementById('search-brand').value;
@@ -768,82 +1137,24 @@
                 filtered = filtered.filter(v => v.category === type);
             }
 
+            setActiveFilter(type);
+
             // Scroll to catalog section smoothly
             document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
             renderCatalog(filtered);
         }
 
-        // --- 4. CAROUSEL SLIDER LOGIC ---
-        let currentSlide = 0;
-        const slidesContainer = document.getElementById('carousel-slides');
-        const totalSlides = 3;
+        // --- 4. MODAL INTERACTIVITY (Bootstrap Modal) ---
+        const bookingModal = new bootstrap.Modal(document.getElementById('booking-modal'));
 
-        function initCarousel() {
-            const dotsContainer = document.getElementById('dots-container');
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement('button');
-                dot.className = `w-3 h-3 rounded-full transition-all duration-300 ${i === 0 ? 'bg-brand-gold w-8' : 'bg-white/40'}`;
-                dot.onclick = () => goToSlide(i);
-                dotsContainer.appendChild(dot);
-            }
-
-            document.getElementById('prev-btn').addEventListener('click', prevSlide);
-            document.getElementById('next-btn').addEventListener('click', nextSlide);
-
-            // Auto slide interval
-            setInterval(nextSlide, 6000);
-        }
-
-        function updateCarouselUI() {
-            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
-            const dots = document.getElementById('dots-container').children;
-            Array.from(dots).forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.className = 'w-8 h-3 rounded-full bg-brand-gold transition-all duration-300';
-                } else {
-                    dot.className = 'w-3 h-3 rounded-full bg-white/40 transition-all duration-300';
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateCarouselUI();
-        }
-
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            updateCarouselUI();
-        }
-
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarouselUI();
-        }
-
-        // --- 5. MODAL INTERACTIVITY ---
         function openModal(carName) {
-            const modal = document.getElementById('booking-modal');
-            const container = document.getElementById('modal-container');
-            const title = document.getElementById('modal-title');
-            const carInput = document.getElementById('car-selected-input');
-
-            carInput.value = carName;
-            title.innerText = `Cotizar: ${carName}`;
-
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            container.classList.remove('scale-95');
-            container.classList.add('scale-100');
+            document.getElementById('car-selected-input').value = carName;
+            document.getElementById('modal-title').innerText = `Cotizar: ${carName}`;
+            bookingModal.show();
         }
 
         function closeModal() {
-            const modal = document.getElementById('booking-modal');
-            const container = document.getElementById('modal-container');
-
-            container.classList.remove('scale-100');
-            container.classList.add('scale-95');
-            modal.classList.add('opacity-0', 'pointer-events-none');
+            bookingModal.hide();
         }
 
         function handleFormSubmit(e) {
@@ -854,34 +1165,24 @@
             e.target.reset();
         }
 
-        // --- 6. MOBILE MENU & NAVBAR SCROLL ---
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
+        // --- 5. MOBILE MENU & NAVBAR SCROLL ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileCollapse = bootstrap.Collapse.getOrCreateInstance(mobileMenu, { toggle: false });
 
-        // Close mobile menu when clicking links
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.add('hidden');
+        // Close mobile menu when clicking links or the CTA
+        mobileMenu.querySelectorAll('.nav-link, button').forEach(el => {
+            el.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('show')) mobileCollapse.hide();
             });
         });
 
         // Navbar background shift on scroll
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('bg-slate-950/95', 'shadow-xl');
-            } else {
-                nav.classList.remove('bg-slate-950/95', 'shadow-xl');
-            }
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
 
         // Initial Load Initialization
-        window.onload = function() {
-            renderCatalog(vehicles);
-            initCarousel();
-        };
+        renderCatalog(vehicles);
     </script>
 </body>
 </html>
