@@ -41,7 +41,7 @@
                 </ul>
 
                 <!-- Call to Action Button -->
-                <button onclick="openModal('Prueba de Manejo General')" class="btn gold-gradient-btn rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2 small w-100 w-md-auto mt-2 mt-md-0" style="font-size: .875rem;">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn gold-gradient-btn rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2 small w-100 w-md-auto mt-2 mt-md-0" style="font-size: .875rem;">
                     <i class="fa-regular fa-calendar-check"></i>
                     <span>Prueba de Manejo</span>
                 </button>
@@ -105,7 +105,7 @@
                         <h3 class="fs-5 fw-bold text-white mb-2">Encuentra tu Vehículo Ideal</h3>
                         <p class="fs-xs text-muted-light mb-4">Filtra entre más de 120 autos listos para entrega inmediata.</p>
 
-                        <form id="hero-search-form" onsubmit="event.preventDefault(); triggerSearch();">
+                        <form id="hero-search-form">
                             <!-- Marca -->
                             <div class="mb-3">
                                 <label for="search-brand" class="form-label-dark d-block">Marca</label>
@@ -137,14 +137,13 @@
                                     <label for="search-budget" class="form-label-dark mb-1">Presupuesto Máx.</label>
                                     <span id="budget-value" class="fs-xs fw-bold text-gold">$150,000 USD</span>
                                 </div>
-                                <input type="range" id="search-budget" class="form-range" min="30000" max="200000" step="5000" value="150000"
-                                       oninput="document.getElementById('budget-value').innerText = '$' + parseInt(this.value).toLocaleString() + ' USD'">
+                                <input type="range" id="search-budget" class="form-range" min="30000" max="200000" step="5000" value="150000">
                             </div>
 
-                            <button type="submit" class="btn gold-gradient-btn w-100 py-3 rounded-xl d-flex align-items-center justify-content-center gap-2 mt-4 shadow" style="font-size: .875rem;">
+                            <a href="#catalogo" class="btn gold-gradient-btn w-100 py-3 rounded-xl d-flex align-items-center justify-content-center gap-2 mt-4 shadow" style="font-size: .875rem;">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 <span>Ver Autos Disponibles</span>
-                            </button>
+                            </a>
                         </form>
                     </div>
                 </div>
@@ -300,16 +299,362 @@
 
             <!-- Filter Buttons -->
             <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 gap-sm-3 mb-5">
-                <button class="btn filter-btn active" data-category="all">Todos</button>
-                <button class="btn filter-btn" data-category="SUV">SUV</button>
-                <button class="btn filter-btn" data-category="Deportivo">Deportivo</button>
-                <button class="btn filter-btn" data-category="Sedán">Sedán</button>
-                <button class="btn filter-btn" data-category="Híbrido/Eléctrico">Híbrido / Eléctrico</button>
+                <button type="button" class="btn filter-btn active">Todos</button>
+                <button type="button" class="btn filter-btn">SUV</button>
+                <button type="button" class="btn filter-btn">Deportivo</button>
+                <button type="button" class="btn filter-btn">Sedán</button>
+                <button type="button" class="btn filter-btn">Híbrido / Eléctrico</button>
             </div>
 
             <!-- Vehicles Grid -->
             <div id="catalog-grid" class="row g-4">
-                <!-- Vehicle Cards injected via JS -->
+                <!-- Vehículo 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="car-img-wrap position-relative">
+                                <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=800&auto=format&fit=crop" alt="Porsche 911 Carrera GTS">
+                                <span class="car-tag">Destacado</span>
+                                <span class="car-category">Deportivo</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">Porsche 911 Carrera GTS</h3>
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: 2024</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">0 km (Nuevo)</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">PDK 8 Velocidades</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">3.0L Twin-Turbo 480 CV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$148,500 <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$1950/mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículo 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="car-img-wrap position-relative">
+                                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop" alt="BMW X5 M Competition">
+                                <span class="car-tag">Certificado</span>
+                                <span class="car-category">SUV</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">BMW X5 M Competition</h3>
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: 2023</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">14,200 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">Automática M Steptronic</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">4.4L V8 TwinPower 625 CV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$112,000 <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$1480/mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículo 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="car-img-wrap position-relative">
+                                <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=800&auto=format&fit=crop" alt="Tesla Model S Plaid">
+                                <span class="car-tag">Eléctrico</span>
+                                <span class="car-category">Híbrido/Eléctrico</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">Tesla Model S Plaid</h3>
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: 2024</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">0 km (Nuevo)</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">Direct Drive Tri-Motor</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">1,020 CV 100% Eléctrico</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$108,900 <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$1390/mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículo 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="car-img-wrap position-relative">
+                                <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=800&auto=format&fit=crop" alt="Audi RS6 Avant">
+                                <span class="car-tag">Exclusivo</span>
+                                <span class="car-category">Sedán</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">Audi RS6 Avant</h3>
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: 2023</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">8,500 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">Tiptronic 8 Vel. Quattro</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">4.0L V8 TFSI 600 CV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$125,000 <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$1620/mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículo 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="car-img-wrap position-relative">
+                                <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop" alt="Mercedes-Benz GLE 53 AMG">
+                                <span class="car-tag">Oportunidad</span>
+                                <span class="car-category">SUV</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">Mercedes-Benz GLE 53 AMG</h3>
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: 2024</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">2,100 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">AMG SPEEDSHIFT TCT 9G</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">3.0L Turbo Mild-Hybrid 435 CV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$98,500 <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$1290/mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículo 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="car-img-wrap position-relative">
+                                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop" alt="Mercedes-AMG GT Coupe">
+                                <span class="car-tag">Deportivo</span>
+                                <span class="car-category">Deportivo</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">Mercedes-AMG GT Coupe</h3>
+                                <div class="row g-2 my-3">
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-regular fa-calendar text-gold"></i>
+                                            <span>Año: 2022</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gauge text-gold"></i>
+                                            <span class="text-truncate">18,900 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-gears text-gold"></i>
+                                            <span class="text-truncate">AMG SPEEDSHIFT DCT 7G</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="spec-chip d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-microchip text-gold"></i>
+                                            <span class="text-truncate">4.0L V8 Biturbo 530 CV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                                        <p class="fs-4 fw-black text-white mb-0">$132,000 <span class="fs-xs text-gold">USD</span></p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                                        <p class="small fw-bold text-gold mb-0">$1710/mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#booking-modal" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Agendar Cita / Cotizar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -414,9 +759,7 @@
                     <p id="modal-subtitle" class="text-muted-light fs-xs mb-0">Completa el formulario para recibir detalles y opción de financiamiento.</p>
                 </div>
 
-                <form id="modal-form" onsubmit="handleFormSubmit(event)">
-                    <input type="hidden" id="car-selected-input" value="">
-
+                <form id="modal-form">
                     <div class="mb-3">
                         <label class="form-label-dark d-block mb-1">Nombre Completo</label>
                         <input type="text" required placeholder="Ej. Carlos Mendoza" class="form-control form-control-dark">
@@ -447,268 +790,7 @@
     </div>
 
     <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JAVASCRIPT LOGIC & INTERACTIVITY -->
-    <script>
-        // --- 1. VEHICLE DATA DATASET ---
-        const vehicles = [
-            {
-                id: 1,
-                name: "Porsche 911 Carrera GTS",
-                brand: "Porsche",
-                category: "Deportivo",
-                year: 2024,
-                mileage: "0 km (Nuevo)",
-                transmission: "PDK 8 Velocidades",
-                engine: "3.0L Twin-Turbo 480 CV",
-                price: 148500,
-                monthlyFee: 1950,
-                image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=800&auto=format&fit=crop",
-                tag: "Destacado"
-            },
-            {
-                id: 2,
-                name: "BMW X5 M Competition",
-                brand: "BMW",
-                category: "SUV",
-                year: 2023,
-                mileage: "14,200 km",
-                transmission: "Automática M Steptronic",
-                engine: "4.4L V8 TwinPower 625 CV",
-                price: 112000,
-                monthlyFee: 1480,
-                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop",
-                tag: "Certificado"
-            },
-            {
-                id: 3,
-                name: "Tesla Model S Plaid",
-                brand: "Tesla",
-                category: "Híbrido/Eléctrico",
-                year: 2024,
-                mileage: "0 km (Nuevo)",
-                transmission: "Direct Drive Tri-Motor",
-                engine: "1,020 CV 100% Eléctrico",
-                price: 108900,
-                monthlyFee: 1390,
-                image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=800&auto=format&fit=crop",
-                tag: "Eléctrico"
-            },
-            {
-                id: 4,
-                name: "Audi RS6 Avant",
-                brand: "Audi",
-                category: "Sedán",
-                year: 2023,
-                mileage: "8,500 km",
-                transmission: "Tiptronic 8 Vel. Quattro",
-                engine: "4.0L V8 TFSI 600 CV",
-                price: 125000,
-                monthlyFee: 1620,
-                image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=800&auto=format&fit=crop",
-                tag: "Exclusivo"
-            },
-            {
-                id: 5,
-                name: "Mercedes-Benz GLE 53 AMG",
-                brand: "Mercedes-Benz",
-                category: "SUV",
-                year: 2024,
-                mileage: "2,100 km",
-                transmission: "AMG SPEEDSHIFT TCT 9G",
-                engine: "3.0L Turbo Mild-Hybrid 435 CV",
-                price: 98500,
-                monthlyFee: 1290,
-                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop",
-                tag: "Oportunidad"
-            },
-            {
-                id: 6,
-                name: "Mercedes-AMG GT Coupe",
-                brand: "Mercedes-Benz",
-                category: "Deportivo",
-                year: 2022,
-                mileage: "18,900 km",
-                transmission: "AMG SPEEDSHIFT DCT 7G",
-                engine: "4.0L V8 Biturbo 530 CV",
-                price: 132000,
-                monthlyFee: 1710,
-                image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop",
-                tag: "Deportivo"
-            }
-        ];
-
-        // --- 2. RENDER CATALOG CARDS ---
-        function renderCatalog(items) {
-            const container = document.getElementById('catalog-grid');
-            container.innerHTML = '';
-
-            if (items.length === 0) {
-                container.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <i class="fa-solid fa-car-side fs-1 mb-3" style="color: #4B5563;"></i>
-                        <p class="text-muted-light fs-5">No se encontraron vehículos que coincidan con la búsqueda.</p>
-                        <button onclick="filterCategory('all')" class="btn btn-link text-gold small fw-bold mt-2 p-0">Ver todo el inventario</button>
-                    </div>
-                `;
-                return;
-            }
-
-            items.forEach(car => {
-                const col = document.createElement('div');
-                col.className = 'col-md-6 col-lg-4';
-                col.innerHTML = `
-                    <div class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
-                        <div>
-                            <!-- Image Container -->
-                            <div class="car-img-wrap position-relative">
-                                <img src="${car.image}" alt="${car.name}">
-                                <span class="car-tag">${car.tag}</span>
-                                <span class="car-category">${car.category}</span>
-                            </div>
-
-                            <!-- Card Content -->
-                            <div class="p-4">
-                                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">${car.name}</h3>
-
-                                <!-- Specs Badges -->
-                                <div class="row g-2 my-3">
-                                    <div class="col-6">
-                                        <div class="spec-chip d-flex align-items-center gap-2">
-                                            <i class="fa-regular fa-calendar text-gold"></i>
-                                            <span>Año: ${car.year}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="spec-chip d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-gauge text-gold"></i>
-                                            <span class="text-truncate">${car.mileage}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="spec-chip d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-gears text-gold"></i>
-                                            <span class="text-truncate">${car.transmission}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="spec-chip d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-microchip text-gold"></i>
-                                            <span class="text-truncate">${car.engine}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Pricing -->
-                                <div class="border-top border-gray-800 pt-3 mt-2 d-flex justify-content-between align-items-end">
-                                    <div>
-                                        <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
-                                        <p class="fs-4 fw-black text-white mb-0">$${car.price.toLocaleString()} <span class="fs-xs text-gold">USD</span></p>
-                                    </div>
-                                    <div class="text-end">
-                                        <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
-                                        <p class="small fw-bold text-gold mb-0">$${car.monthlyFee}/mes</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Action Button -->
-                        <div class="px-4 pb-4">
-                            <button onclick="openModal('${car.name}')" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                <span>Agendar Cita / Cotizar</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(col);
-            });
-        }
-
-        // --- 3. FILTERING LOGIC ---
-        function setActiveFilter(category) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.category === category);
-            });
-        }
-
-        function filterCategory(category) {
-            setActiveFilter(category);
-
-            if (category === 'all') {
-                renderCatalog(vehicles);
-            } else {
-                renderCatalog(vehicles.filter(v => v.category === category));
-            }
-        }
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => filterCategory(btn.dataset.category));
-        });
-
-        function triggerSearch() {
-            const brand = document.getElementById('search-brand').value;
-            const type = document.getElementById('search-type').value;
-            const maxPrice = parseInt(document.getElementById('search-budget').value);
-
-            let filtered = vehicles.filter(v => v.price <= maxPrice);
-
-            if (brand) {
-                filtered = filtered.filter(v => v.brand.toLowerCase() === brand.toLowerCase());
-            }
-
-            if (type !== 'all') {
-                filtered = filtered.filter(v => v.category === type);
-            }
-
-            setActiveFilter(type);
-
-            // Scroll to catalog section smoothly
-            document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
-            renderCatalog(filtered);
-        }
-
-        // --- 4. MODAL INTERACTIVITY (Bootstrap Modal) ---
-        const bookingModal = new bootstrap.Modal(document.getElementById('booking-modal'));
-
-        function openModal(carName) {
-            document.getElementById('car-selected-input').value = carName;
-            document.getElementById('modal-title').innerText = `Cotizar: ${carName}`;
-            bookingModal.show();
-        }
-
-        function closeModal() {
-            bookingModal.hide();
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const car = document.getElementById('car-selected-input').value;
-            alert(`¡Gracias por tu interés! Hemos recibido tu solicitud para "${car}". Un asesor VIP te contactará por WhatsApp en breve.`);
-            closeModal();
-            e.target.reset();
-        }
-
-        // --- 5. MOBILE MENU & NAVBAR SCROLL ---
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileCollapse = bootstrap.Collapse.getOrCreateInstance(mobileMenu, { toggle: false });
-
-        // Close mobile menu when clicking links or the CTA
-        mobileMenu.querySelectorAll('.nav-link, button').forEach(el => {
-            el.addEventListener('click', () => {
-                if (mobileMenu.classList.contains('show')) mobileCollapse.hide();
-            });
-        });
-
-        // Navbar background shift on scroll
-        window.addEventListener('scroll', () => {
-            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Initial Load Initialization
-        renderCatalog(vehicles);
-    </script>
 </body>
 </html>
