@@ -1,0 +1,242 @@
+<main class="car-manager">
+  <header class="car-manager__header">
+    <div class="container-xl d-flex align-items-center justify-content-between gap-3">
+      <a class="brand-logo" href="#" aria-label="AutoElite">
+        <span class="logo-icon d-flex align-items-center justify-content-center">
+          <i class="bi bi-car-front-fill" aria-hidden="true"></i>
+        </span>
+        <span class="logo-text">AUTO<span class="text-gold">ELITE</span></span>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <span class="car-manager__user d-none d-sm-inline">{{ userEmail() }}</span>
+        <button class="btn btn-outline-elite btn-sm rounded-pill px-3" type="button" (click)="logoutRequested.emit()">
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-xl car-manager__content">
+    <div class="car-manager__intro">
+      <span class="section-tag">Control de Inventario</span>
+      <h1 class="car-manager__title">Vehículos</h1>
+      <p class="car-manager__subtitle">
+        Administra los vehículos disponibles en AutoElite.
+      </p>
+    </div>
+
+    <section class="car-manager__workspace" aria-label="Inventario de vehículos">
+      <div class="car-manager__toolbar">
+        <label class="car-manager__search">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <span class="visually-hidden">Buscar vehículos</span>
+          <input type="search" [value]="searchQuery()" (input)="updateSearch($any($event.target).value)"
+            placeholder="Buscar por modelo, marca, categoría o año..." autocomplete="off">
+        </label>
+        <button class="btn btn-elite rounded-pill car-manager__add" type="button" (click)="openAddForm()">
+          <i class="bi bi-plus-lg" aria-hidden="true"></i>
+          Agregar vehículo
+        </button>
+      </div>
+
+      <div class="car-manager__count" aria-live="polite">
+        {{ filteredCars().length }} de {{ cars().length }}
+        {{ cars().length === 1 ? 'vehículo' : 'vehículos' }}
+      </div>
+
+      <div class="table-responsive car-manager__table-frame">
+        <table class="table car-manager__table align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col">Vehículo</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Año</th>
+              <th scope="col">Precio</th>
+              <th scope="col" class="car-manager__actions-heading">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (car of filteredCars(); track car.id) {
+            <tr>
+              <td class="car-manager__car-name">{{ car.name }}</td>
+              <td>{{ car.brand }}</td>
+              <td>{{ car.category }}</td>
+              <td>{{ car.year ?? 'Sin dato' }}</td>
+              <td class="car-manager__price">{{ formatPrice(car.price) }}</td>
+              <td class="car-manager__actions">
+                <button class="car-manager__action" type="button" aria-label="Ver detalle" title="Ver detalle"
+                  (click)="showDetails(car)"><i class="bi bi-eye" aria-hidden="true"></i></button>
+                <button class="car-manager__action" type="button" aria-label="Actualizar vehículo"
+                  title="Actualizar vehículo" (click)="openEditForm(car)"><i class="bi bi-pencil-square"
+                    aria-hidden="true"></i></button>
+                <button class="car-manager__action car-manager__action--delete" type="button"
+                  aria-label="Eliminar vehículo" title="Eliminar vehículo" (click)="removeCar(car.id)"><i
+                    class="bi bi-trash3" aria-hidden="true"></i></button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td class="car-manager__empty" colspan="6">
+                {{ searchQuery().trim() ? 'No se encontraron vehículos con esa búsqueda.' : 'Aún no hay vehículos en el
+                inventario.' }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  @if (formOpen()) {
+  <div class="car-modal-backdrop" (click)="closeForm()" (keydown.escape)="closeForm()">
+    <section class="car-modal" role="dialog" aria-modal="true" aria-labelledby="car-form-title"
+      (click)="$event.stopPropagation()">
+      <header class="car-modal__header">
+        <div>
+          <span class="section-tag">Inventario AutoElite</span>
+          <h2 id="car-form-title" class="car-modal__title">
+            {{ editingCarId() ? 'Actualizar vehículo' : 'Agregar vehículo' }}
+          </h2>
+        </div>
+        <button class="car-modal__close" type="button" aria-label="Cerrar" (click)="closeForm()">
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <form (submit)="addCar($event)" novalidate>
+        <div class="car-modal__body">
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="car-name">Nombre del vehículo</label>
+              <input id="car-name" type="text" maxlength="80" [value]="draft().name"
+                (input)="updateField('name', $any($event.target).value)" placeholder="Ej. Porsche 911 Carrera GTS">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-brand">Marca</label>
+              <input id="car-brand" type="text" maxlength="40" [value]="draft().brand"
+                (input)="updateField('brand', $any($event.target).value)">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-category">Categoría</label>
+              <select id="car-category" (change)="updateField('category', $any($event.target).value)">
+                <option value="" [selected]="!draft().category">Selecciona una</option>
+                @for (category of categories; track category) {
+                <option [value]="category" [selected]="draft().category === category">{{ category }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-year">Año</label>
+              <input id="car-year" type="number" min="1990" max="2100" step="1" [value]="draft().year"
+                (input)="updateField('year', $any($event.target).value)">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-mileage">Kilometraje</label>
+              <input id="car-mileage" type="number" min="0" step="1" [value]="draft().mileage"
+                (input)="updateField('mileage', $any($event.target).value)">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-transmission">Transmisión</label>
+              <input id="car-transmission" type="text" maxlength="50" [value]="draft().transmission"
+                (input)="updateField('transmission', $any($event.target).value)">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-engine">Motor</label>
+              <input id="car-engine" type="text" maxlength="50" [value]="draft().engine"
+                (input)="updateField('engine', $any($event.target).value)">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-price">Precio (USD)</label>
+              <input id="car-price" type="number" min="1" step="100" [value]="draft().price"
+                (input)="updateField('price', $any($event.target).value)">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="car-tag">Etiqueta <span>(opcional)</span></label>
+              <input id="car-tag" type="text" maxlength="20" [value]="draft().tag"
+                (input)="updateField('tag', $any($event.target).value)" placeholder="Destacado">
+            </div>
+
+            <div class="col-12">
+              <label for="car-image">URL de la imagen <span>(opcional)</span></label>
+              <input id="car-image" type="url" [value]="draft().imageUrl"
+                (input)="updateField('imageUrl', $any($event.target).value)" placeholder="https://...">
+            </div>
+          </div>
+
+          @if (formError(); as error) {
+          <p class="car-manager__error" role="alert">{{ error }}</p>
+          }
+        </div>
+        <footer class="car-modal__footer">
+          <button class="btn btn-elite rounded-xl w-100 py-3" type="submit">
+            <i class="bi bi-check-lg" aria-hidden="true"></i>
+            {{ editingCarId() ? 'Guardar cambios' : 'Guardar vehículo' }}
+          </button>
+        </footer>
+      </form>
+    </section>
+  </div>
+  }
+
+  @if (selectedCar(); as car) {
+  <div class="car-modal-backdrop" (click)="closeDetails()" (keydown.escape)="closeDetails()">
+    <section class="car-modal" role="dialog" aria-modal="true" aria-labelledby="car-detail-title"
+      (click)="$event.stopPropagation()">
+      <header class="car-modal__header">
+        <div>
+          <span class="section-tag">Ficha del Vehículo</span>
+          <h2 id="car-detail-title" class="car-modal__title">{{ car.name }}</h2>
+        </div>
+        <button class="car-modal__close" type="button" aria-label="Cerrar" (click)="closeDetails()">
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      </header>
+      <img class="car-details__image" [src]="car.imageUrl || defaultImage" [alt]="car.name">
+      <dl class="car-details">
+        <div>
+          <dt>Marca</dt>
+          <dd>{{ car.brand }}</dd>
+        </div>
+        <div>
+          <dt>Categoría</dt>
+          <dd>{{ car.category }}</dd>
+        </div>
+        <div>
+          <dt>Año</dt>
+          <dd>{{ car.year ?? 'Sin dato' }}</dd>
+        </div>
+        <div>
+          <dt>Kilometraje</dt>
+          <dd>{{ formatMileage(car.mileage) }}</dd>
+        </div>
+        <div>
+          <dt>Transmisión</dt>
+          <dd>{{ car.transmission || 'Sin dato' }}</dd>
+        </div>
+        <div>
+          <dt>Motor</dt>
+          <dd>{{ car.engine || 'Sin dato' }}</dd>
+        </div>
+        <div>
+          <dt>Precio</dt>
+          <dd class="text-gold fw-bold">{{ formatPrice(car.price) }} USD</dd>
+        </div>
+        <div>
+          <dt>Etiqueta</dt>
+          <dd>{{ car.tag }}</dd>
+        </div>
+      </dl>
+    </section>
+  </div>
+  }
+</main>

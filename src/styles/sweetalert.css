@@ -1,0 +1,137 @@
+/* Estilos exclusivos de SweetAlert2 para AutoElite. */
+.ae-login-form {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.25rem;
+  text-align: left;
+}
+
+.ae-login-form label {
+  color: var(--ae-soft, #D1D5DB);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ae-login-input {
+  width: 100%;
+  margin-bottom: 0.6rem;
+  padding: 0.75rem 1rem;
+  color: var(--ae-white, #FFFFFF);
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid var(--ae-slate-700, #334155);
+  border-radius: 0.75rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.875rem;
+}
+
+.ae-login-input:focus {
+  border-color: var(--ae-gold, #D4AF37);
+  outline: 2px solid rgba(212, 175, 55, 0.2);
+  outline-offset: 1px;
+}
+
+/* Tema de alertas compartido con el resto de la página. */
+.ae-alert-popup {
+  width: min(calc(100% - 2rem), 32rem) !important;
+  padding: 2rem !important;
+  color: var(--ae-text, #E2E8F0) !important;
+  background: var(--ae-card-dark, #161F30) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6) !important;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.ae-alert-title {
+  color: var(--ae-white, #FFFFFF) !important;
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+}
+
+.ae-alert-message {
+  color: var(--ae-muted, #9CA3AF) !important;
+  line-height: 1.65 !important;
+}
+
+.ae-alert-actions {
+  gap: 0.85rem !important;
+  margin-top: 1.5rem !important;
+}
+
+.ae-alert-confirm,
+.ae-alert-cancel {
+  min-width: 7rem;
+  padding: 0.75rem 1.4rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 0.75rem !important;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: box-shadow 0.3s ease, background 0.3s ease !important;
+}
+
+.ae-alert-confirm {
+  color: var(--ae-slate-950, #020617) !important;
+  background: linear-gradient(135deg, var(--ae-gold, #D4AF37) 0%, var(--ae-amber, #FF8C00) 100%) !important;
+}
+
+.ae-alert-confirm:hover {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.ae-alert-cancel {
+  color: var(--ae-soft, #D1D5DB) !important;
+  background: var(--ae-slate-900, #0F172A) !important;
+  border-color: var(--ae-slate-700, #334155) !important;
+}
+
+.ae-alert-cancel:hover {
+  color: var(--ae-white, #FFFFFF) !important;
+  border-color: var(--ae-gold, #D4AF37) !important;
+}
+
+.ae-alert-confirm:focus-visible,
+.ae-alert-cancel:focus-visible {
+  outline: 2px solid var(--ae-gold, #D4AF37);
+  outline-offset: 3px;
+}
+
+.ae-alert-popup .swal2-icon.swal2-success {
+  border-color: var(--ae-gold, #D4AF37) !important;
+  color: var(--ae-gold, #D4AF37) !important;
+}
+
+.ae-alert-popup .swal2-icon.swal2-warning,
+.ae-alert-popup .swal2-icon.swal2-question {
+  border-color: var(--ae-amber, #FF8C00) !important;
+  color: var(--ae-amber, #FF8C00) !important;
+}
+
+.ae-alert-popup .swal2-icon.swal2-error {
+  border-color: var(--ae-orange, #FF5722) !important;
+  color: var(--ae-orange, #FF5722) !important;
+}
+
+.ae-alert-popup .swal2-validation-message {
+  color: var(--ae-soft, #D1D5DB);
+  background: var(--ae-slate-900, #0F172A);
+}
+
+@media (max-width: 575.98px) {
+  .ae-alert-popup {
+    padding: 1.5rem !important;
+  }
+
+  .ae-alert-actions {
+    flex-direction: column-reverse;
+  }
+
+  .ae-alert-confirm,
+  .ae-alert-cancel {
+    width: 100%;
+  }
+}

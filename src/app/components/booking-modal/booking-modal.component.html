@@ -1,0 +1,63 @@
+<div class="booking-modal-backdrop" (click)="closeModal()" (keydown.escape)="closeModal()">
+  <section class="booking-modal p-4 p-sm-5" role="dialog" aria-modal="true" aria-labelledby="booking-title"
+    (click)="$event.stopPropagation()">
+    <button class="booking-modal__close" type="button" aria-label="Cerrar" (click)="closeModal()">
+      <i class="bi bi-x-lg" aria-hidden="true"></i>
+    </button>
+
+    <div class="mb-4">
+      <span class="section-tag">{{ selectedCar() ? 'Cotización' : 'Prueba de Manejo' }}</span>
+      <h3 id="booking-title" class="fs-4 fw-bold text-white mt-3 mb-1 pe-4">
+        {{ selectedCar() ? 'Cotizar Vehículo' : 'Agendar Prueba de Manejo' }}
+      </h3>
+      <p class="text-muted-light fs-xs mb-0">
+        @if (selectedCar(); as car) {
+        Completa el formulario para recibir detalles y opciones de financiamiento del
+        <strong class="text-gold">{{ car.name }}</strong>.
+        } @else {
+        Déjanos tus datos y un asesor te confirmará la fecha y hora de tu prueba de manejo.
+        }
+      </p>
+    </div>
+
+    <form (submit)="sendRequest($event)" novalidate>
+      <div class="mb-3">
+        <label for="booking-name" class="form-label-dark d-block mb-1">Nombre Completo</label>
+        <input id="booking-name" type="text" maxlength="80" placeholder="Ej. Carlos Mendoza"
+          class="form-control form-control-dark" autocomplete="name" [value]="draft().fullName"
+          (input)="updateField('fullName', $any($event.target).value)">
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-sm-6">
+          <label for="booking-phone" class="form-label-dark d-block mb-1">Teléfono / WhatsApp</label>
+          <input id="booking-phone" type="tel" maxlength="20" placeholder="+1 555-0192"
+            class="form-control form-control-dark" autocomplete="tel" [value]="draft().phone"
+            (input)="updateField('phone', $any($event.target).value)">
+        </div>
+        <div class="col-sm-6">
+          <label for="booking-email" class="form-label-dark d-block mb-1">Correo Electrónico</label>
+          <input id="booking-email" type="email" placeholder="carlos@email.com"
+            class="form-control form-control-dark" autocomplete="email" [value]="draft().email"
+            (input)="updateField('email', $any($event.target).value)">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="booking-comment" class="form-label-dark d-block mb-1">Comentario o Consulta Especial</label>
+        <textarea id="booking-comment" rows="3" maxlength="400"
+          placeholder="Me interesa conocer las opciones de inicial y tasa de interés..."
+          class="form-control form-control-dark booking-modal__comment" [value]="draft().comment"
+          (input)="updateField('comment', $any($event.target).value)"></textarea>
+      </div>
+
+      @if (formError(); as error) {
+      <p class="booking-modal__error" role="alert">{{ error }}</p>
+      }
+
+      <button type="submit" class="btn btn-elite w-100 py-3 rounded-xl mt-2 shadow">
+        Enviar Solicitud
+      </button>
+    </form>
+  </section>
+</div>

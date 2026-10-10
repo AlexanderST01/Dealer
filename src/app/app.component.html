@@ -1,0 +1,467 @@
+@if (carManagerOpen()) {
+<app-car-manager [userEmail]="currentUser()" (logoutRequested)="logout()" />
+} @else {
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+  <div class="container-xl px-3 px-sm-4">
+    <a class="navbar-brand brand-logo m-0" href="#inicio" (click)="scrollToSection($event, 'inicio')">
+      <span class="logo-icon d-flex align-items-center justify-content-center">
+        <i class="bi bi-car-front-fill" aria-hidden="true"></i>
+      </span>
+      <span class="logo-text">AUTO<span class="text-gold">ELITE</span></span>
+    </a>
+
+    <button class="btn btn-outline-elite btn-sm rounded-pill navbar-login-mobile d-lg-none" type="button"
+      aria-label="Iniciar sesión" (click)="showLoginAlert()">
+      <i class="bi bi-person-circle" aria-hidden="true"></i>
+      Login
+    </button>
+
+    <button class="navbar-toggler p-2" type="button" aria-controls="mainNavbar" [attr.aria-expanded]="navigationOpen()"
+      aria-label="Abrir menú" (click)="toggleNavigation()">
+      <i class="bi bi-list fs-2" aria-hidden="true"></i>
+    </button>
+
+    <div id="mainNavbar" class="collapse navbar-collapse" [class.show]="navigationOpen()">
+      <ul class="navbar-nav mx-auto pt-3 pt-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#inicio" (click)="scrollToSection($event, 'inicio')">Inicio</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#destacados"
+            (click)="scrollToSection($event, 'destacados')">Destacados</a></li>
+        <li class="nav-item"><a class="nav-link" href="#galeria"
+            (click)="scrollToSection($event, 'galeria')">Galería</a></li>
+        <li class="nav-item"><a class="nav-link" href="#catalogo"
+            (click)="scrollToSection($event, 'catalogo')">Catálogo</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contacto"
+            (click)="scrollToSection($event, 'contacto')">Contacto</a></li>
+      </ul>
+
+      <div class="d-flex flex-column flex-lg-row gap-2 mt-2 mt-lg-0">
+        <button class="btn btn-outline-elite rounded-pill px-4 py-2 d-none d-lg-inline-flex" type="button"
+          (click)="showLoginAlert()">
+          Iniciar sesión
+        </button>
+        <button class="btn btn-elite rounded-pill px-4 py-2 d-flex align-items-center justify-content-center gap-2"
+          type="button" (click)="openBooking()">
+          <i class="bi bi-calendar-check" aria-hidden="true"></i>
+          <span>Prueba de Manejo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <header id="inicio" class="hero-section position-relative d-flex align-items-center justify-content-center">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop"
+        alt="Auto de lujo oscuro">
+      <div class="hero-overlay hero-overlay--bottom"></div>
+      <div class="hero-overlay hero-overlay--right"></div>
+    </div>
+
+    <div class="container-xl position-relative hero-content px-3 px-sm-4 mt-4">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-7 text-center text-lg-start">
+          <div class="hero-kicker glass-panel mb-4">
+            <i class="bi bi-gem" aria-hidden="true"></i> Experiencia Automotriz de Exclusividad
+          </div>
+
+          <h1 class="hero-title text-white mb-4">
+            Maneja el Auto de tus <span class="gold-gradient-text">Sueños Hoy Mismo</span>
+          </h1>
+
+          <p class="hero-description mb-4 mx-auto mx-lg-0">
+            Accede a nuestro selecto inventario de vehículos de lujo y deportivos. Ofrecemos
+            <strong>financiamiento a tu medida</strong>, tasa preferencial y aprobación en menos de 24 horas con
+            garantía total de fábrica.
+          </p>
+
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-4 pt-2">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-shield-check" aria-hidden="true"></i>
+              </div>
+              <div class="text-start">
+                <p class="text-white fw-bold small mb-0">Garantía Certificada</p>
+                <p class="fs-xs text-muted-light mb-0">Hasta 3 años de cobertura</p>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+              </div>
+              <div class="text-start">
+                <p class="text-white fw-bold small mb-0">Aprobación Express</p>
+                <p class="fs-xs text-muted-light mb-0">Respuesta el mismo día</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="quick-search glass-panel p-4 p-sm-5 rounded-4xl position-relative shadow-lg">
+            <div class="search-badge shadow">Buscador Rápido</div>
+
+            <h3 class="fs-5 fw-bold text-white mb-2">Encuentra tu Vehículo Ideal</h3>
+            <p class="fs-xs text-muted-light mb-4">
+              Filtra entre los {{ carInventory.cars().length }} autos listos para entrega inmediata.
+            </p>
+
+            <form (submit)="confirmQuickSearch($event)">
+              <div class="mb-3">
+                <label for="search-brand" class="form-label-dark d-block">Marca</label>
+                <select id="search-brand" class="form-select form-select-dark"
+                  (change)="updateSearchBrand($any($event.target).value)">
+                  <option value="" [selected]="!searchBrand()">Todas las marcas</option>
+                  @for (brand of availableBrands(); track brand) {
+                  <option [value]="brand" [selected]="searchBrand() === brand">{{ brand }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="search-type" class="form-label-dark d-block">Tipo de Vehículo</label>
+                <select id="search-type" class="form-select form-select-dark"
+                  (change)="updateSearchType($any($event.target).value)">
+                  <option [value]="allCategories" [selected]="searchType() === allCategories">Todos los tipos</option>
+                  @for (category of categories; track category) {
+                  <option [value]="category" [selected]="searchType() === category">{{ category }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <label for="search-budget" class="form-label-dark mb-1">Presupuesto Máx.</label>
+                  <span class="fs-xs fw-bold text-gold">{{ formatPrice(searchBudget()) }} USD</span>
+                </div>
+                <input type="range" id="search-budget" class="form-range" min="30000" max="200000" step="5000"
+                  [value]="searchBudget()" (input)="updateSearchBudget($any($event.target).value)">
+              </div>
+
+              <button type="submit"
+                class="btn btn-elite w-100 py-3 rounded-xl d-flex align-items-center justify-content-center gap-2 mt-4 shadow">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <span>Ver Autos Disponibles</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="destacados" class="features-section py-5 position-relative">
+    <div class="container-xl px-3 px-sm-4 py-4">
+      <div class="text-center mx-auto mb-5 section-header">
+        <span class="section-tag">¿Por qué elegir AutoElite?</span>
+        <h2 class="section-title mt-3 mb-3">Estándares de Excelencia Sin Competencia</h2>
+        <p class="section-text mb-0">
+          Nos enfocamos en brindar tranquilidad absoluta en cada kilómetro. Descubre las ventajas exclusivas de
+          nuestro concesionario.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card card-hover-effect h-100">
+            <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+              <i class="bi bi-clipboard-check" aria-hidden="true"></i>
+            </div>
+            <h3 class="fs-5 fw-bold text-white mb-3">Garantía Certificada</h3>
+            <p class="text-muted-light small lh-lg mb-0">
+              Cada vehículo supera una rigurosa revisión técnica de <strong>150 puntos</strong> en motor, transmisión,
+              electrónica y chasis.
+            </p>
+          </article>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card card-hover-effect h-100">
+            <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+              <i class="bi bi-cash-coin" aria-hidden="true"></i>
+            </div>
+            <h3 class="fs-5 fw-bold text-white mb-3">Financiamiento Flexible</h3>
+            <p class="text-muted-light small lh-lg mb-0">
+              Planes personalizados con bancos aliados. Pre-aprobación en <strong>menos de 24 horas</strong> con cuotas
+              fijas ajustadas a ti.
+            </p>
+          </article>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card card-hover-effect h-100">
+            <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+              <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+            </div>
+            <h3 class="fs-5 fw-bold text-white mb-3">Prueba de 7 Días</h3>
+            <p class="text-muted-light small lh-lg mb-0">
+              Pruébalo durante 7 días o 500 km. Si el auto no supera tus expectativas, <strong>te devolvemos el
+                100%</strong> de tu dinero.
+            </p>
+          </article>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <article class="feature-card card-hover-effect h-100">
+            <div class="feature-icon d-flex align-items-center justify-content-center mb-4">
+              <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+            </div>
+            <h3 class="fs-5 fw-bold text-white mb-3">Trámites Incluidos</h3>
+            <p class="text-muted-light small lh-lg mb-0">
+              Nos encargamos de toda la gestión legal, traspaso de título, placas y póliza de seguro sin cargos
+              ocultos.
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" class="gallery-section py-5 position-relative overflow-hidden">
+    <div class="container-xl px-3 px-sm-4 py-4">
+      <div class="row mb-5 align-items-end g-4">
+        <div class="col-12 col-lg-8">
+          <span class="section-label">Experiencia Visual</span>
+          <h2 class="section-title mt-2 mb-2">Galería de Exclusividad</h2>
+          <p class="section-text small mb-0">
+            Siente la presencia y atención al detalle de los modelos más imponentes de nuestra colección.
+          </p>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="alert-demo" aria-label="Demostración de alertas">
+            <span class="alert-demo__label">Prueba las alertas</span>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <button class="alert-demo__button" type="button" (click)="showAcceptAlert()">
+                Aceptar
+              </button>
+              <button class="alert-demo__button" type="button" (click)="showErrorAlert()">
+                Error
+              </button>
+              <button class="alert-demo__button" type="button" (click)="showWarningAlert()">
+                Warning
+              </button>
+              <button class="alert-demo__button" type="button" (click)="showQuestionAlert()">
+                Question
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-gallery-carousel />
+    </div>
+  </section>
+
+  <section id="catalogo" class="catalog-section py-5">
+    <div class="container-xl px-3 px-sm-4 py-5">
+      <div class="text-center mx-auto mb-5 section-header">
+        <span class="section-tag">Nuestra Colección</span>
+        <h2 class="section-title mt-3 mb-3">Explora el Inventario Disponible</h2>
+        <p class="section-text mb-0">
+          Filtrado rápido por categoría. Todos los modelos cuentan con historial verificado e inspección garantizada.
+        </p>
+      </div>
+
+      <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 gap-sm-3 mb-4">
+        <button type="button" class="btn filter-btn" [class.active]="catalogCategory() === allCategories"
+          (click)="selectCategory(allCategories)">Todos</button>
+        @for (category of categories; track category) {
+        <button type="button" class="btn filter-btn" [class.active]="catalogCategory() === category"
+          (click)="selectCategory(category)">{{ category }}</button>
+        }
+      </div>
+
+      <div class="row justify-content-center mb-3">
+        <div class="col-12 col-md-8 col-lg-5">
+          <label class="catalog-search">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <span class="visually-hidden">Buscar vehículos del catálogo</span>
+            <input type="search" [value]="catalogSearch()" (input)="updateCatalogSearch($any($event.target).value)"
+              placeholder="Buscar por modelo, marca o año..." autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <div class="catalog-count d-flex flex-wrap align-items-center justify-content-center gap-2 mb-5"
+        aria-live="polite">
+        <span>
+          Mostrando {{ filteredCatalogCars().length }} de {{ carInventory.cars().length }} vehículos
+          @if (maxBudget() !== maxBudgetLimit) {
+          · hasta {{ formatPrice(maxBudget()) }} USD
+          }
+        </span>
+        @if (hasActiveFilters()) {
+        <button class="catalog-clear" type="button" (click)="clearCatalogFilters()">
+          <i class="bi bi-x-circle" aria-hidden="true"></i> Limpiar filtros
+        </button>
+        }
+      </div>
+
+      <div class="row g-4">
+        @for (car of filteredCatalogCars(); track car.id) {
+        <div class="col-md-6 col-lg-4">
+          <article class="car-card card-hover-effect h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="car-img-wrap position-relative">
+                <img [src]="car.imageUrl || defaultImage" [alt]="car.name" loading="lazy">
+                <span class="car-tag">{{ car.tag }}</span>
+                <span class="car-category">{{ car.category }}</span>
+              </div>
+              <div class="p-4">
+                <h3 class="fs-5 fw-bold text-white mb-2 text-truncate">{{ car.name }}</h3>
+                <div class="row g-2 my-3">
+                  <div class="col-6">
+                    <div class="spec-chip d-flex align-items-center gap-2">
+                      <i class="bi bi-calendar3 text-gold" aria-hidden="true"></i>
+                      <span>Año: {{ car.year ?? 'Sin dato' }}</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="spec-chip d-flex align-items-center gap-2">
+                      <i class="bi bi-speedometer2 text-gold" aria-hidden="true"></i>
+                      <span class="text-truncate">{{ formatMileage(car.mileage) }}</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="spec-chip d-flex align-items-center gap-2">
+                      <i class="bi bi-gear-wide-connected text-gold" aria-hidden="true"></i>
+                      <span class="text-truncate">{{ car.transmission || 'Sin dato' }}</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="spec-chip d-flex align-items-center gap-2">
+                      <i class="bi bi-cpu text-gold" aria-hidden="true"></i>
+                      <span class="text-truncate">{{ car.engine || 'Sin dato' }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="car-price-row pt-3 mt-2 d-flex justify-content-between align-items-end">
+                  <div>
+                    <p class="fs-xs text-muted-light mb-0">Precio de contado</p>
+                    <p class="fs-4 fw-black text-white mb-0">
+                      {{ formatPrice(car.price) }} <span class="fs-xs text-gold">USD</span>
+                    </p>
+                  </div>
+                  <div class="text-end">
+                    <p class="fs-xs text-muted-light mb-0">Cuota est.</p>
+                    <p class="small fw-bold text-gold mb-0">{{ formatMonthlyPayment(car.price) }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="px-4 pb-4">
+              <button type="button" class="btn btn-quote w-100 d-flex align-items-center justify-content-center gap-2"
+                (click)="openBooking(car)">
+                <i class="bi bi-send" aria-hidden="true"></i>
+                <span>Agendar Cita / Cotizar</span>
+              </button>
+            </div>
+          </article>
+        </div>
+        } @empty {
+        <div class="col-12">
+          <p class="section-text catalog-empty mb-0">
+            {{ hasActiveFilters() ? 'No hay vehículos que coincidan con los filtros seleccionados.' : 'Todavía no hay
+            vehículos agregados al inventario.' }}
+          </p>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto" class="site-footer pt-5 pb-5">
+  <div class="container-xl px-3 px-sm-4 pt-3">
+    <div class="row g-5 mb-5">
+      <div class="col-md-6 col-lg-3">
+        <a class="brand-logo footer-logo mb-3" href="#inicio" (click)="scrollToSection($event, 'inicio')">
+          <span class="logo-icon logo-icon--sm d-flex align-items-center justify-content-center">
+            <i class="bi bi-car-front-fill" aria-hidden="true"></i>
+          </span>
+          <span class="logo-text">AUTO<span class="text-gold">ELITE</span></span>
+        </a>
+        <p class="footer-description small lh-lg">
+          Líderes en venta de vehículos de lujo, semi-nuevos certificados y asesoría financiera automotriz
+          personalizada.
+        </p>
+        <div class="social-links d-flex gap-2 pt-2">
+          <a href="#inicio" aria-label="Instagram" (click)="scrollToSection($event, 'inicio')"><i
+              class="bi bi-instagram"></i></a>
+          <a href="#inicio" aria-label="Facebook" (click)="scrollToSection($event, 'inicio')"><i
+              class="bi bi-facebook"></i></a>
+          <a href="#inicio" aria-label="YouTube" (click)="scrollToSection($event, 'inicio')"><i
+              class="bi bi-youtube"></i></a>
+          <a href="#inicio" aria-label="WhatsApp" (click)="scrollToSection($event, 'inicio')"><i
+              class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <h4 class="footer-title">Enlaces Rápidos</h4>
+        <ul class="list-unstyled footer-links small mb-0">
+          <li><a href="#inicio" (click)="scrollToSection($event, 'inicio')">Inicio</a></li>
+          <li><a href="#destacados" (click)="scrollToSection($event, 'destacados')">¿Por qué AutoElite?</a></li>
+          <li><a href="#galeria" (click)="scrollToSection($event, 'galeria')">Galería Interactiva</a></li>
+          <li><a href="#catalogo" (click)="scrollToSection($event, 'catalogo')">Catálogo Completo</a></li>
+          <li><a href="#" (click)="showComingSoon($event, 'Calculadora de Cuotas')">Calculadora de Cuotas</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <h4 class="footer-title">Horario de Atención</h4>
+        <ul class="list-unstyled small mb-0">
+          <li class="d-flex justify-content-between hours-row pb-2 mb-2">
+            <span>Lunes - Viernes:</span>
+            <span class="text-white fw-medium">8:30 AM - 7:00 PM</span>
+          </li>
+          <li class="d-flex justify-content-between hours-row pb-2 mb-2">
+            <span>Sábados:</span>
+            <span class="text-white fw-medium">9:00 AM - 5:00 PM</span>
+          </li>
+          <li class="d-flex justify-content-between pb-2">
+            <span>Domingos:</span>
+            <span class="text-gold fw-medium">Cita Previa</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <h4 class="footer-title">Contacto Directo</h4>
+        <ul class="list-unstyled small d-flex flex-column gap-3 mb-0">
+          <li class="d-flex align-items-start gap-3">
+            <i class="bi bi-geo-alt-fill text-gold" aria-hidden="true"></i>
+            <span>Av. Principal de las Américas #104, Zona Comercial.</span>
+          </li>
+          <li class="d-flex align-items-center gap-3">
+            <i class="bi bi-telephone-fill text-gold" aria-hidden="true"></i>
+            <span class="text-white fw-semibold">+1 (800) 555-ELITE</span>
+          </li>
+          <li class="d-flex align-items-center gap-3">
+            <i class="bi bi-envelope-fill text-gold" aria-hidden="true"></i>
+            <span class="text-break">ventas&#64;autoelitedealership.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="footer-divider mb-4">
+
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+      <p class="copyright mb-0">&copy; 2026 AutoElite Dealership. Todos los derechos reservados.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-4">
+        <a href="#" (click)="showComingSoon($event, 'Términos y Condiciones')">Términos y Condiciones</a>
+        <a href="#" (click)="showComingSoon($event, 'Política de Privacidad')">Política de Privacidad</a>
+        <a href="#" (click)="showComingSoon($event, 'Garantía Legal')">Garantía Legal</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+@if (bookingOpen()) {
+<app-booking-modal [selectedCar]="bookingCar()" (closed)="closeBooking()" />
+}
+}

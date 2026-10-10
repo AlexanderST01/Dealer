@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.gallery-carousel:focus-visible {
+  outline: 2px solid var(--ae-gold);
+  outline-offset: 4px;
+}
+
+.carousel-item.active {
+  animation: slide-fade-in 0.7s ease;
+}
+
+@keyframes slide-fade-in {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
